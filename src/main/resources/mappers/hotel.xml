@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.room.yeahnolja.hotel.HotelMapper">
+
+    <insert id="insertHotel" parameterType="com.room.yeahnolja.hotel.HotelRequestDto">
+        insert into hotel (name, type, address, phone, star, description, min_price, max_price, facilities_id, rooms)
+        values (#{name}, #{type}, #{address}, #{phone}, #{star}, #{description}, #{minPrice}, #{maxPrice},
+                #{facilitiesId}, #{rooms})
+    </insert>
+
+</mapper>
