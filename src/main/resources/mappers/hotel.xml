@@ -8,4 +8,21 @@
                 #{facilitiesId}, #{rooms})
     </insert>
 
+    <select id="selectAllHotels" resultType="com.room.yeahnolja.hotel.HotelResponseDto">
+        select id,
+               name,
+               type,
+               address,
+               phone,
+               star,
+               description,
+               min_price,
+               max_price,
+               facilities_id,
+               rooms,
+               reg_dt,
+               mod_dt
+        from hotel
+    </select>
+
 </mapper>
