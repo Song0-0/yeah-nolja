@@ -13,4 +13,8 @@ public interface HotelMapper {
     HotelResponseDto selectHotel(int hotelId);
 
     List<HotelResponseDto> selectHotelsByLocation(String location);
+
+    List<HotelResponseDto> selectHotelsByPrice(int price);
+
+
 }

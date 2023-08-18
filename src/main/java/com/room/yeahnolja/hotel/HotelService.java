@@ -26,4 +26,8 @@ public class HotelService {
     public List<HotelResponseDto> getHotelsByLocation(String location) {
         return hotelMapper.selectHotelsByLocation(location);
     }
+
+    public List<HotelResponseDto> getHotelsByPrice(int price) {
+        return hotelMapper.selectHotelsByPrice(price);
+    }
 }
