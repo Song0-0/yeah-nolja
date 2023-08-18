@@ -8,4 +8,6 @@ import java.util.List;
 public interface HotelMapper {
     void insertHotel(HotelRequestDto requestDto);
     List<HotelResponseDto> selectAllHotels();
+
+    HotelResponseDto selectHotel(int hotelId);
 }

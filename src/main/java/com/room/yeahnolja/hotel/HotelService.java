@@ -18,4 +18,8 @@ public class HotelService {
     public List<HotelResponseDto> getAllHotels() {
         return hotelMapper.selectAllHotels();
     }
+
+    public HotelResponseDto getHotel(int hotelId) {
+        return hotelMapper.selectHotel(hotelId);
+    }
 }
