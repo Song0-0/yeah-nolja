@@ -1,5 +1,7 @@
 package com.room.yeahnolja.hotel;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Tag(name="Hotel Controller")
 @RestController
 @RequiredArgsConstructor
 public class HotelController {
@@ -20,13 +23,17 @@ public class HotelController {
      */
     private final HotelService hotelService;
 
+    @Operation(summary = "호텔 단건 등록")
     @PostMapping("/hotel")
     public void saveHotel(@RequestBody HotelRequestDto requestDto) {
         hotelService.saveHotel(requestDto);
     }
 
+    @Operation(summary = "호텔 전체 조회")
     @GetMapping("/hotels")
     public List<HotelResponseDto> getAllHotels() {
         return hotelService.getAllHotels();
     }
+
+
 }
