@@ -7,7 +7,10 @@ import java.util.List;
 @Mapper
 public interface HotelMapper {
     void insertHotel(HotelRequestDto requestDto);
+
     List<HotelResponseDto> selectAllHotels();
 
     HotelResponseDto selectHotel(int hotelId);
+
+    List<HotelResponseDto> selectHotelsByLocation(String location);
 }

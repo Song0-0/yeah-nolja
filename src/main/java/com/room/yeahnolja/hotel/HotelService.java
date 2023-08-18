@@ -22,4 +22,8 @@ public class HotelService {
     public HotelResponseDto getHotel(int hotelId) {
         return hotelMapper.selectHotel(hotelId);
     }
+
+    public List<HotelResponseDto> getHotelsByLocation(String location) {
+        return hotelMapper.selectHotelsByLocation(location);
+    }
 }

@@ -43,4 +43,22 @@
         where id = #{hotelId}
     </select>
 
+    <select id="selectHotelsByLocation" parameterType="String" resultType="com.room.yeahnolja.hotel.HotelResponseDto">
+        select id,
+               name,
+               type,
+               address,
+               phone,
+               star,
+               description,
+               min_price,
+               max_price,
+               facilities_id,
+               rooms,
+               reg_dt,
+               mod_dt
+        from hotel
+        where address like concat('%', #{location}, '%')
+    </select>
+
 </mapper>

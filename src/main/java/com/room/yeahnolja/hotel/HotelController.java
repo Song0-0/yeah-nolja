@@ -37,4 +37,10 @@ public class HotelController {
     public HotelResponseDto getHotel(@PathVariable int hotelId) {
         return hotelService.getHotel(hotelId);
     }
+
+    @Operation(summary = "특정 지역에 대한 호텔 조회")
+    @GetMapping("/hotels/location")
+    public List<HotelResponseDto> getHotelsByLocation(@RequestParam String location) {
+        return hotelService.getHotelsByLocation(location);
+    }
 }
