@@ -131,4 +131,10 @@
         </if>
         where id = #{id}
     </update>
+
+    <delete id="deleteHotel" parameterType="int">
+        delete
+        from hotel
+        where id = #{hotelId}
+    </delete>
 </mapper>

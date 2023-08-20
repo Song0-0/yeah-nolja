@@ -19,4 +19,6 @@ public interface HotelMapper {
 
     void updateHotel(HotelRequestDto requestDto);
 
+    void deleteHotel(int hotelId);
+
 }

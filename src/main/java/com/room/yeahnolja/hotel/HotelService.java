@@ -35,4 +35,8 @@ public class HotelService {
         requestDto.setId(hotelId);
         hotelMapper.updateHotel(requestDto);
     }
+
+    public void removeHotel(int hotelId) {
+        hotelMapper.deleteHotel(hotelId);
+    }
 }

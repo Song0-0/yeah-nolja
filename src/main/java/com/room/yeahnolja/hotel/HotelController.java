@@ -3,6 +3,7 @@ package com.room.yeahnolja.hotel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,4 +57,11 @@ public class HotelController {
     public void modifyHotel(@PathVariable int hotelId, @RequestBody HotelRequestDto requestDto) {
         hotelService.modifyHotel(hotelId, requestDto);
     }
+
+    @Operation(summary = "호텔 단건 삭제")
+    @DeleteMapping("/hotel/{hotelId}")
+    public void removeHotel(@PathVariable int hotelId) {
+        hotelService.removeHotel(hotelId);
+    }
+
 }
