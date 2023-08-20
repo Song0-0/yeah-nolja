@@ -1,6 +1,7 @@
 package com.room.yeahnolja.hotel;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,5 +17,6 @@ public interface HotelMapper {
 
     List<HotelResponseDto> selectHotelsByPrice(int price);
 
+    void updateHotel(HotelRequestDto requestDto);
 
 }

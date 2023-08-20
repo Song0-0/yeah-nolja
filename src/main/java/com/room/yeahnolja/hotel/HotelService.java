@@ -30,4 +30,9 @@ public class HotelService {
     public List<HotelResponseDto> getHotelsByPrice(int price) {
         return hotelMapper.selectHotelsByPrice(price);
     }
+
+    public void modifyHotel(int hotelId, HotelRequestDto requestDto) {
+        requestDto.setId(hotelId);
+        hotelMapper.updateHotel(requestDto);
+    }
 }

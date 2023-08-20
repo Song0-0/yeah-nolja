@@ -20,4 +20,6 @@ public class HotelRequestDto {
     private int facilitiesId;
     private int rooms;
     private int imageId;
+
+    private int id;
 }

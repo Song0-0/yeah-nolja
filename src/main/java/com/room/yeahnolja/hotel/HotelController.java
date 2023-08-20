@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name="Hotel Controller")
+@Tag(name = "Hotel Controller")
 @RestController
 @RequiredArgsConstructor
 public class HotelController {
@@ -15,8 +15,9 @@ public class HotelController {
      * private final 설정으로 객체 사용을 하고 있으니 생성자 주입방식임을 알 수 있다.
      * 따라서, HotelController 객체가 생성될 때, hotelService에 주입될 수 있도록 설정해줘야한다.
      * 그래서! 직접 생성자를 넣을 수도 있지만,
-     *  final이나 @NonNull로 선언된 필드만을 파라미터로 갖는 생성자를 자동으로 생성해주는
-     *  @RequiredArgsConstructor를 사용한다.
+     * final이나 @NonNull로 선언된 필드만을 파라미터로 갖는 생성자를 자동으로 생성해주는
+     *
+     * @RequiredArgsConstructor를 사용한다.
      */
     private final HotelService hotelService;
 
@@ -48,5 +49,11 @@ public class HotelController {
     @GetMapping("/hotels/price")
     public List<HotelResponseDto> getHotelsByPrice(@RequestParam int price) {
         return hotelService.getHotelsByPrice(price);
+    }
+
+    @Operation(summary = "호텔 단건 수정")
+    @PutMapping("/hotel/{hotelId}")
+    public void modifyHotel(@PathVariable int hotelId, @RequestBody HotelRequestDto requestDto) {
+        hotelService.modifyHotel(hotelId, requestDto);
     }
 }
