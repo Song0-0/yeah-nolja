@@ -21,11 +21,18 @@ public class HotelController {
      * @RequiredArgsConstructor를 사용한다.
      */
     private final HotelService hotelService;
+    private final HotelRepository hotelRepository;
 
-    @Operation(summary = "호텔 단건 등록")
+    @Operation(summary = "호텔 단건 등록 (mybatis 사용)")
     @PostMapping("/hotel")
     public void saveHotel(@RequestBody HotelRequestDto requestDto) {
         hotelService.saveHotel(requestDto);
+    }
+
+    @Operation(summary = "호텔 단건 등록 (jpa 사용)")
+    @PostMapping("/hotel/save")
+    public void saveHotel(@RequestBody Hotel hotel) {
+        hotelRepository.save(hotel);
     }
 
     @Operation(summary = "호텔 전체 조회")
