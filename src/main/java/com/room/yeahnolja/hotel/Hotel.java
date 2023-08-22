@@ -33,4 +33,12 @@ public class Hotel {
     private int min_price;
     @NonNull
     private int max_price;
+
+
+    private String email;
+    private int rating;
+    private String availability_id;
+    private int facilities_id;
+    private int rooms;
+    private int image_id;
 }
