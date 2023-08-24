@@ -1,9 +1,12 @@
-package com.room.yeahnolja.hotel;
+package com.room.yeahnolja.domain.hotel.controller;
 
+import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
+import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
+import com.room.yeahnolja.domain.hotel.entity.Hotel;
+import com.room.yeahnolja.domain.hotel.service.HotelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +24,6 @@ public class HotelController {
      * @RequiredArgsConstructor를 사용한다.
      */
     private final HotelService hotelService;
-    private final HotelRepository hotelRepository;
 
     @Operation(summary = "호텔 단건 등록 (mybatis 사용)")
     @PostMapping("/hotel")
@@ -32,7 +34,7 @@ public class HotelController {
     @Operation(summary = "호텔 단건 등록 (jpa 사용)")
     @PostMapping("/hotel/save")
     public void saveHotel(@RequestBody Hotel hotel) {
-        hotelRepository.save(hotel);
+        hotelService.save(hotel);
     }
 
     @Operation(summary = "호텔 전체 조회")
@@ -71,4 +73,9 @@ public class HotelController {
         hotelService.removeHotel(hotelId);
     }
 
+    @Operation(summary = "특정 호텔명에 대한 호텔 조회")
+    @GetMapping("/hotels/name")
+    public List<HotelResponseDto> getHotelsByName(@RequestParam String name) {
+        return hotelService.getHotelsByName(name);
+    }
 }

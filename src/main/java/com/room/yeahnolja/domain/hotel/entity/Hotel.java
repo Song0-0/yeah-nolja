@@ -1,4 +1,4 @@
-package com.room.yeahnolja.hotel;
+package com.room.yeahnolja.domain.hotel.entity;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -36,9 +36,11 @@ public class Hotel {
 
 
     private String email;
-    private int rating;
     private String availability_id;
     private int facilities_id;
     private int rooms;
     private int image_id;
+
+    private String reg_dt;
+    private String mod_dt;
 }

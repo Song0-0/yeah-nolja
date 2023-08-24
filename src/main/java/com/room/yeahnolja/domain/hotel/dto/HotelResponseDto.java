@@ -1,4 +1,4 @@
-package com.room.yeahnolja.hotel;
+package com.room.yeahnolja.domain.hotel.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,12 +11,11 @@ public class HotelResponseDto {
     private String address;
     private String phone;
     private String email;
-    private int rating;
     private int star;
     private String description;
     private int minPrice;
     private int maxPrice;
-    private int availabilityId;
+    private String availabilityId;
     private int facilitiesId;
     private int rooms;
     private int imageId;

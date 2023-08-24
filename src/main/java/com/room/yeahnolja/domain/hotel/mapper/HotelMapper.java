@@ -1,7 +1,8 @@
-package com.room.yeahnolja.hotel;
+package com.room.yeahnolja.domain.hotel.mapper;
 
+import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
+import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
