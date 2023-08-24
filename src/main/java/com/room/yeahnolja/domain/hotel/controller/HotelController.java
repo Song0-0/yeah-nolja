@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class HotelController {
-    /**
+    /** TODO:
      * private final 설정으로 객체 사용을 하고 있으니 생성자 주입방식임을 알 수 있다.
      * 따라서, HotelController 객체가 생성될 때, hotelService에 주입될 수 있도록 설정해줘야한다.
      * 그래서! 직접 생성자를 넣을 수도 있지만,
@@ -62,7 +62,7 @@ public class HotelController {
     }
 
     @Operation(summary = "호텔 단건 수정")
-    @PutMapping("/hotel/{hotelId}")
+    @PatchMapping("/hotel/{hotelId}")
     public void modifyHotel(@PathVariable int hotelId, @RequestBody HotelRequestDto requestDto) {
         hotelService.modifyHotel(hotelId, requestDto);
     }

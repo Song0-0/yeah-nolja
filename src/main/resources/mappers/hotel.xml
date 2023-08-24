@@ -88,46 +88,47 @@
 
     <update id="updateHotel" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelRequestDto">
         update hotel
-        set
-        <if test="name != null">
-            name = #{name},
-        </if>
-        <if test="type != null">
-            type = #{type},
-        </if>
-        <if test="address != null">
-            address = #{address},
-        </if>
-        <if test="phone != null">
-            phone = #{phone},
-        </if>
-        <if test="email != null">
-            email = #{email},
-        </if>
-        <if test="star != null">
-            star = #{star},
-        </if>
-        <if test="description != null">
-            description = #{description},
-        </if>
-        <if test="minPrice != null">
-            min_price= #{minPrice},
-        </if>
-        <if test="maxPrice != null">
-            max_price= #{maxPrice},
-        </if>
-        <if test="availabilityId != null">
-            availability_id= #{availabilityId},
-        </if>
-        <if test="facilitiesId != null">
-            facilities_id= #{facilitiesId},
-        </if>
-        <if test="rooms != null">
-            rooms= #{rooms},
-        </if>
-        <if test="imageId != null">
-            image_id= #{imageId}
-        </if>
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="star != null">
+                star = #{star},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="minPrice != null">
+                min_price= #{minPrice},
+            </if>
+            <if test="maxPrice != null">
+                max_price= #{maxPrice},
+            </if>
+            <if test="availabilityId != null">
+                availability_id= #{availabilityId},
+            </if>
+            <if test="facilitiesId != null">
+                facilities_id= #{facilitiesId},
+            </if>
+            <if test="rooms != null">
+                rooms= #{rooms},
+            </if>
+            <if test="imageId != null">
+                image_id= #{imageId}
+            </if>
+        </trim>
         where id = #{id}
     </update>
 
