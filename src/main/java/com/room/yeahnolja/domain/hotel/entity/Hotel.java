@@ -43,4 +43,10 @@ public class Hotel {
 
     private String reg_dt;
     private String mod_dt;
+
+
+    @Override
+    public String toString() {
+        return name + " " + type + " " + address + " " + phone + " " + star + " " + description + " " + min_price + " " + max_price;
+    }
 }
