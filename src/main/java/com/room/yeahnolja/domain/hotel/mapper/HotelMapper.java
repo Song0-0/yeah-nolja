@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface HotelMapper {
-    void insertHotel(HotelRequestDto requestDto);
+    boolean insertHotel(HotelRequestDto requestDto);
 
     List<HotelResponseDto> selectAllHotels();
 

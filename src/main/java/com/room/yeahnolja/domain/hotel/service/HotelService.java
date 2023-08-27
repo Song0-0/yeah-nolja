@@ -18,8 +18,9 @@ public class HotelService {
     private final HotelMapper hotelMapper;
     private final HotelRepository hotelRepository;
 
-    public void saveHotel(HotelRequestDto requestDto) {
-        hotelMapper.insertHotel(requestDto);
+    public boolean saveHotel(HotelRequestDto requestDto) {
+        boolean isSaved = hotelMapper.insertHotel(requestDto);
+        return isSaved;
     }
 
     public void save(Hotel hotel) {
@@ -41,6 +42,7 @@ public class HotelService {
     public List<HotelResponseDto> getHotelsByPrice(int price) {
         return hotelMapper.selectHotelsByPrice(price);
     }
+
     /**
      * TODO:
      * MyBatis를 통해서 그럼 patch를 활용하기 위해 사용자가 요청하는 값만을 매개변수에 담을 수는 없는 것인가?
@@ -76,6 +78,7 @@ public class HotelService {
         dto.setModDt(hotel.getMod_dt());
         return dto;
     }
+
     public List<HotelResponseDto> getHotelsByName(String name) {
         List<Hotel> hotels = hotelRepository.findByNameContaining(name);
         return hotels.stream()

@@ -7,6 +7,8 @@ import com.room.yeahnolja.domain.hotel.service.HotelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +17,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class HotelController {
-    /** TODO:
+    /**
+     * TODO:
      * private final 설정으로 객체 사용을 하고 있으니 생성자 주입방식임을 알 수 있다.
      * 따라서, HotelController 객체가 생성될 때, hotelService에 주입될 수 있도록 설정해줘야한다.
      * 그래서! 직접 생성자를 넣을 수도 있지만,
@@ -27,8 +30,9 @@ public class HotelController {
 
     @Operation(summary = "호텔 단건 등록 (mybatis 사용)")
     @PostMapping("/hotel")
-    public void saveHotel(@RequestBody HotelRequestDto requestDto) {
-        hotelService.saveHotel(requestDto);
+    public ResponseEntity<Void> saveHotel(@RequestBody HotelRequestDto requestDto) {
+        boolean isSaved = hotelService.saveHotel(requestDto);
+        return isSaved ? new ResponseEntity<>(HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @Operation(summary = "호텔 단건 등록 (jpa 사용)")
