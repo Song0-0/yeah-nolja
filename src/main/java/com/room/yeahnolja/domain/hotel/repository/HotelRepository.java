@@ -1,14 +1,41 @@
 package com.room.yeahnolja.domain.hotel.repository;
 
+import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface HotelRepository extends JpaRepository<Hotel, Integer> {
-    @Transactional
-    List<Hotel> findByNameContaining(String name);
+public interface HotelRepository {
+    Hotel save(Hotel hotel);
+    HotelResponseDto update(int id, String name, String type, String address, String phone, int star, String description, int min_price, int max_price);
+    void delete(int id);
+    List<Hotel> findAll();
+    Optional<Hotel> findById(int id);
+    Optional<Hotel> findAllByPrice(int price);
+    Optional<Hotel> findAllByName(String name);
+    Optional<Hotel>  findAllByLocation(String address);
+
+//    //JPA
+//    List<Hotel> findByNameContaining(String name);
+//
+//    //MAP DB
+//    void save(Hotel hotel);
+//    Collection<Hotel> findAll();
+//    void findAllById(int id);
+//    void update(int id, String name, String type, String address, String phone, int star, String description, int min_price, int max_price);
+//    void delete(int id);
+//    void findAllByPrice(int price);
+//    void findAllByName(String name);
+//    void findAllByLocation(String address);
+//
+//    //MAPPER
+//    boolean save(HotelRequestDto requestDto);
+//    List<HotelResponseDto> findAll();
+//    HotelResponseDto findAllById(int hotelId);
+//    HotelResponseDto update(HotelRequestDto requestDto);
+//    void delete(int hotelId);
+//    List<HotelResponseDto> findAllByLocation(String location);
+//    List<HotelResponseDto> findAllByPrice(int price);
+
 }

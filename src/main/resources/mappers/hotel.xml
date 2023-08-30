@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.room.yeahnolja.domain.hotel.mapper.HotelMapper">
 
-    <insert id="insertHotel" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelRequestDto">
+    <insert id="save" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelRequestDto">
         insert into hotel (name, type, address, phone, star, description, min_price, max_price, facilities_id, rooms)
         values (#{name}, #{type}, #{address}, #{phone}, #{star}, #{description}, #{minPrice}, #{maxPrice},
                 #{facilitiesId}, #{rooms})
     </insert>
 
-    <select id="selectAllHotels" resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
+    <select id="findAll" resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
         select id,
                name,
                type,
@@ -25,7 +25,7 @@
         from hotel
     </select>
 
-    <select id="selectHotel" parameterType="int" resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
+    <select id="findAllById" parameterType="int" resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
         select id,
                name,
                type,
@@ -43,7 +43,7 @@
         where id = #{hotelId}
     </select>
 
-    <select id="selectHotelsByLocation" parameterType="String"
+    <select id="findAllByLocation" parameterType="String"
             resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
         select id,
                name,
@@ -62,7 +62,7 @@
         where address like concat('%', #{location}, '%')
     </select>
 
-    <select id="selectHotelsByPrice" parameterType="int"
+    <select id="findAllByPrice" parameterType="int"
             resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
         select id,
         name,
@@ -86,7 +86,7 @@
         </where>
     </select>
 
-    <update id="updateHotel" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelRequestDto">
+    <update id="update" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelRequestDto">
         update hotel
         <trim prefix="set" suffixOverrides=",">
             <if test="name != null">
@@ -132,7 +132,7 @@
         where id = #{id}
     </update>
 
-    <delete id="deleteHotel" parameterType="int">
+    <delete id="delete" parameterType="int">
         delete
         from hotel
         where id = #{hotelId}

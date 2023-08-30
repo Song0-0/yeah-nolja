@@ -3,44 +3,50 @@ package com.room.yeahnolja.domain.hotel.service;
 import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
 import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
-import com.room.yeahnolja.domain.hotel.mapper.HotelMapper;
 import com.room.yeahnolja.domain.hotel.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class HotelService {
 
-    private final HotelMapper hotelMapper;
+    //    private final HotelMapper hotelMapper;
+//    private final HotelJpaRepository hotelJpaRepository;
     private final HotelRepository hotelRepository;
 
-    public boolean saveHotel(HotelRequestDto requestDto) {
-        boolean isSaved = hotelMapper.insertHotel(requestDto);
-        return isSaved;
-    }
-
-    public void save(Hotel hotel) {
+    public Hotel saveHotel(Hotel hotel) {
         hotelRepository.save(hotel);
+        return hotel;
     }
 
-    public List<HotelResponseDto> getAllHotels() {
-        return hotelMapper.selectAllHotels();
+    public HotelResponseDto modifyHotel(int hotelId, HotelRequestDto requestDto, int id, String name, String type, String address, String phone, int star, String description, int min_price, int max_price) {
+        requestDto.setId(hotelId);
+        return hotelRepository.update(id, name, type, address, phone, star, description, min_price, max_price);
     }
 
-    public HotelResponseDto getHotel(int hotelId) {
-        return hotelMapper.selectHotel(hotelId);
+    public void removeHotel(int hotelId) {
+        hotelRepository.delete(hotelId);
     }
 
-    public List<HotelResponseDto> getHotelsByLocation(String location) {
-        return hotelMapper.selectHotelsByLocation(location);
+    public List<Hotel> getAllHotels() {
+        return hotelRepository.findAll();
     }
 
-    public List<HotelResponseDto> getHotelsByPrice(int price) {
-        return hotelMapper.selectHotelsByPrice(price);
+    public Optional<Hotel> getHotel(int hotelId) {
+        return hotelRepository.findById(hotelId);
+    }
+
+    public Optional<Hotel> getHotelsByLocation(String location) {
+        return hotelRepository.findAllByLocation(location);
+    }
+
+    public Optional<Hotel> getHotelsByPrice(int price) {
+        return hotelRepository.findAllByPrice(price);
     }
 
     /**
@@ -49,14 +55,6 @@ public class HotelService {
      * 그래서 patch를 쓰더라도 xml에 분기문을 작성해주거나
      * service에서 로직으로 requestDto가 null이 아닐때 그 값을 새로 updateDto를 만들어서 updateDto안에 필드들에 담아서 그 담은 것을 mapper에 넘겨줘서 처리해야하는 건가?
      */
-    public void modifyHotel(int hotelId, HotelRequestDto requestDto) {
-        requestDto.setId(hotelId);
-        hotelMapper.updateHotel(requestDto);
-    }
-
-    public void removeHotel(int hotelId) {
-        hotelMapper.deleteHotel(hotelId);
-    }
 
     private HotelResponseDto convertToDto(Hotel hotel) {
         HotelResponseDto dto = new HotelResponseDto();
@@ -80,7 +78,7 @@ public class HotelService {
     }
 
     public List<HotelResponseDto> getHotelsByName(String name) {
-        List<Hotel> hotels = hotelRepository.findByNameContaining(name);
+        Optional<Hotel> hotels = hotelRepository.findAllByName(name);
         return hotels.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());

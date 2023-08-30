@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Hotel Controller")
 @RestController
@@ -28,54 +29,73 @@ public class HotelController {
      */
     private final HotelService hotelService;
 
-    @Operation(summary = "호텔 단건 등록 (mybatis 사용)")
-    @PostMapping("/hotel")
-    public ResponseEntity<Void> saveHotel(@RequestBody HotelRequestDto requestDto) {
-        boolean isSaved = hotelService.saveHotel(requestDto);
-        return isSaved ? new ResponseEntity<>(HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+//    @Operation(summary = "호텔 단건 등록 (mybatis 사용)")
+//    @PostMapping("/hotel")
+//    public ResponseEntity<Void> saveHotel(@RequestBody HotelRequestDto requestDto) {
+//        boolean isSaved = hotelService.saveHotel(requestDto);
+//        return isSaved ? new ResponseEntity<>(HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.OK);
+//    }
 
+    /**
+     * TODO:
+     * 아래의 메서드의 경우 boolean으로 하면 jpaRepository자체에 설정되있는 save() 메서드도 boolean 반환타입을 바꿔야하는데
+     * 이건 어떻게 ResponseEntity가 적용될 수 있는지..?
+     */
     @Operation(summary = "호텔 단건 등록 (jpa 사용)")
     @PostMapping("/hotel/save")
-    public void saveHotel(@RequestBody Hotel hotel) {
-        hotelService.save(hotel);
+    public ResponseEntity<Void> saveHotel(@RequestBody Hotel hotel) {
+        try {
+            hotelService.saveHotel(hotel);
+            return new ResponseEntity<Void>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }
     }
+
+    @Operation(summary = "호텔 단건 수정")
+    @PatchMapping("/hotel/{hotelId}")
+    public ResponseEntity<HotelResponseDto> modifyHotel(@PathVariable int hotelId, @RequestBody HotelRequestDto requestDto, int id, String name, String type, String address, String phone, int star, String description, int min_price, int max_price) {
+        HotelResponseDto updateHotel = hotelService.modifyHotel(hotelId, requestDto, id, name, type, address, phone, star, description, min_price, max_price);
+        return ResponseEntity.ok()
+                .body(updateHotel);
+    }
+
+    @Operation(summary = "호텔 단건 삭제")
+    @DeleteMapping("/hotel/{hotelId}")
+    public ResponseEntity<Void> removeHotel(@PathVariable int hotelId) {
+        hotelService.removeHotel(hotelId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @Operation(summary = "호텔 전체 조회")
     @GetMapping("/hotels")
-    public List<HotelResponseDto> getAllHotels() {
-        return hotelService.getAllHotels();
+    public ResponseEntity<List<Hotel>> getAllHotels() {
+        List<Hotel> allHotels = hotelService.getAllHotels();
+        return new ResponseEntity<>(allHotels, HttpStatus.OK);
     }
 
     @Operation(summary = "호텔 단건 조회")
     @GetMapping("/hotels/{hotelId}")
-    public HotelResponseDto getHotel(@PathVariable int hotelId) {
-        return hotelService.getHotel(hotelId);
+    public ResponseEntity<Hotel> getHotel(@PathVariable int hotelId) {
+        Optional<Hotel> hotel = hotelService.getHotel(hotelId);
+        return hotel
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "특정 지역에 대한 호텔 조회")
     @GetMapping("/hotels/location")
-    public List<HotelResponseDto> getHotelsByLocation(@RequestParam String location) {
+    public Optional<Hotel> getHotelsByLocation(@RequestParam String location) {
         return hotelService.getHotelsByLocation(location);
     }
 
     @Operation(summary = "특정 가격에 대한 호텔 조회")
     @GetMapping("/hotels/price")
-    public List<HotelResponseDto> getHotelsByPrice(@RequestParam int price) {
+    public Optional<Hotel> getHotelsByPrice(@RequestParam int price) {
         return hotelService.getHotelsByPrice(price);
     }
 
-    @Operation(summary = "호텔 단건 수정")
-    @PatchMapping("/hotel/{hotelId}")
-    public void modifyHotel(@PathVariable int hotelId, @RequestBody HotelRequestDto requestDto) {
-        hotelService.modifyHotel(hotelId, requestDto);
-    }
-
-    @Operation(summary = "호텔 단건 삭제")
-    @DeleteMapping("/hotel/{hotelId}")
-    public void removeHotel(@PathVariable int hotelId) {
-        hotelService.removeHotel(hotelId);
-    }
 
     @Operation(summary = "특정 호텔명에 대한 호텔 조회")
     @GetMapping("/hotels/name")
