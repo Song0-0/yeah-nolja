@@ -59,36 +59,36 @@ public class HotelMapRepository implements HotelRepository {
     }
 
     //특정 가격에 대한 호텔 조회
-    public Optional<Hotel> findAllByPrice(int price) {
+    public List<Hotel> findAllByPrice(int price) {
         List<Hotel> hotels = new ArrayList<>();
         for (Map.Entry<Integer, Hotel> entrySet : db.entrySet()) {
             if (price >= entrySet.getValue().getMin_price() && price <= entrySet.getValue().getMax_price()) {
                 hotels.add(entrySet.getValue());
             }
         }
-        return hotels.stream().findAny();
+        return hotels;
     }
 
     //특정 호텔명에 대한 호텔 조회
-    public Optional<Hotel> findAllByName(String name) {
+    public List<Hotel> findAllByName(String name) {
         List<Hotel> hotels = new ArrayList<>();
         for (Map.Entry<Integer, Hotel> entrySet : db.entrySet()) {
             if (entrySet.getValue().getName().contains(name)) {
                 hotels.add(entrySet.getValue());
             }
         }
-        return hotels.stream().findAny();
+        return hotels;
     }
 
     //특정 지역에 대한 호텔 조회
-    public Optional<Hotel> findAllByLocation(String address) {
+    public List<Hotel> findAllByLocation(String address) {
         List<Hotel> hotels = new ArrayList<>();
         for (Map.Entry<Integer, Hotel> entrySet : db.entrySet()) {
             if (entrySet.getValue().getAddress().contains(address)) {
                 hotels.add(entrySet.getValue());
             }
         }
-        return hotels.stream().findAny();
+        return hotels;
     }
 
 //    public static void main(String[] args) {

@@ -7,6 +7,7 @@ import com.room.yeahnolja.domain.hotel.service.HotelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +47,9 @@ public class HotelController {
     public ResponseEntity<Void> saveHotel(@RequestBody Hotel hotel) {
         try {
             hotelService.saveHotel(hotel);
-            return new ResponseEntity<Void>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
@@ -86,20 +87,22 @@ public class HotelController {
 
     @Operation(summary = "특정 지역에 대한 호텔 조회")
     @GetMapping("/hotels/location")
-    public Optional<Hotel> getHotelsByLocation(@RequestParam String location) {
-        return hotelService.getHotelsByLocation(location);
+    public ResponseEntity<List<Hotel>> getHotelsByLocation(@RequestParam String location) {
+        List<Hotel> hotelsByLocation = hotelService.getHotelsByLocation(location);
+        return new ResponseEntity<>(hotelsByLocation, HttpStatus.OK);
     }
 
     @Operation(summary = "특정 가격에 대한 호텔 조회")
     @GetMapping("/hotels/price")
-    public Optional<Hotel> getHotelsByPrice(@RequestParam int price) {
-        return hotelService.getHotelsByPrice(price);
+    public ResponseEntity<List<Hotel>> getHotelsByPrice(@RequestParam int price) {
+        List<Hotel> hotelsByPrice = hotelService.getHotelsByPrice(price);
+        return new ResponseEntity<>(hotelsByPrice, HttpStatus.OK);
     }
-
 
     @Operation(summary = "특정 호텔명에 대한 호텔 조회")
     @GetMapping("/hotels/name")
-    public List<HotelResponseDto> getHotelsByName(@RequestParam String name) {
-        return hotelService.getHotelsByName(name);
+    public ResponseEntity<List<Hotel>> getHotelsByName(@RequestParam String name) {
+        List<Hotel> hotelsByName = hotelService.getHotelsByName(name);
+        return new ResponseEntity<>(hotelsByName, HttpStatus.OK);
     }
 }

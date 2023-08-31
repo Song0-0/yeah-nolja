@@ -41,11 +41,11 @@ public class HotelService {
         return hotelRepository.findById(hotelId);
     }
 
-    public Optional<Hotel> getHotelsByLocation(String location) {
+    public List<Hotel> getHotelsByLocation(String location) {
         return hotelRepository.findAllByLocation(location);
     }
 
-    public Optional<Hotel> getHotelsByPrice(int price) {
+    public List<Hotel> getHotelsByPrice(int price) {
         return hotelRepository.findAllByPrice(price);
     }
 
@@ -56,31 +56,27 @@ public class HotelService {
      * service에서 로직으로 requestDto가 null이 아닐때 그 값을 새로 updateDto를 만들어서 updateDto안에 필드들에 담아서 그 담은 것을 mapper에 넘겨줘서 처리해야하는 건가?
      */
 
-    private HotelResponseDto convertToDto(Hotel hotel) {
-        HotelResponseDto dto = new HotelResponseDto();
-        dto.setId(hotel.getId());
-        dto.setName(hotel.getName());
-        dto.setType(hotel.getType());
-        dto.setAddress(hotel.getAddress());
-        dto.setPhone(hotel.getPhone());
-        dto.setEmail(hotel.getEmail());
-        dto.setStar(hotel.getStar());
-        dto.setDescription(hotel.getDescription());
-        dto.setMinPrice(hotel.getMin_price());
-        dto.setMaxPrice(hotel.getMax_price());
-        dto.setAvailabilityId(hotel.getAvailability_id());
-        dto.setFacilitiesId(hotel.getFacilities_id());
-        dto.setRooms(hotel.getRooms());
-        dto.setImageId(hotel.getImage_id());
-        dto.setRegDt(hotel.getReg_dt());
-        dto.setModDt(hotel.getMod_dt());
-        return dto;
-    }
-
-    public List<HotelResponseDto> getHotelsByName(String name) {
-        Optional<Hotel> hotels = hotelRepository.findAllByName(name);
-        return hotels.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+//    private HotelResponseDto convertToDto(Hotel hotel) {
+//        HotelResponseDto dto = new HotelResponseDto();
+//        dto.setId(hotel.getId());
+//        dto.setName(hotel.getName());
+//        dto.setType(hotel.getType());
+//        dto.setAddress(hotel.getAddress());
+//        dto.setPhone(hotel.getPhone());
+//        dto.setEmail(hotel.getEmail());
+//        dto.setStar(hotel.getStar());
+//        dto.setDescription(hotel.getDescription());
+//        dto.setMinPrice(hotel.getMin_price());
+//        dto.setMaxPrice(hotel.getMax_price());
+//        dto.setAvailabilityId(hotel.getAvailability_id());
+//        dto.setFacilitiesId(hotel.getFacilities_id());
+//        dto.setRooms(hotel.getRooms());
+//        dto.setImageId(hotel.getImage_id());
+//        dto.setRegDt(hotel.getReg_dt());
+//        dto.setModDt(hotel.getMod_dt());
+//        return dto;
+//    }
+    public List<Hotel> getHotelsByName(String name) {
+        return hotelRepository.findAllByName(name);
     }
 }

@@ -12,9 +12,9 @@ public interface HotelRepository {
     void delete(int id);
     List<Hotel> findAll();
     Optional<Hotel> findById(int id);
-    Optional<Hotel> findAllByPrice(int price);
-    Optional<Hotel> findAllByName(String name);
-    Optional<Hotel>  findAllByLocation(String address);
+    List<Hotel> findAllByPrice(int price);
+    List<Hotel> findAllByName(String name);
+    List<Hotel>  findAllByLocation(String address);
 
 //    //JPA
 //    List<Hotel> findByNameContaining(String name);

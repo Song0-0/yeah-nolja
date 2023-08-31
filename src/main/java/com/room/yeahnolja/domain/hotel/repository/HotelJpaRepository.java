@@ -69,26 +69,26 @@ public class HotelJpaRepository implements HotelRepository {
     }
 
     @Override
-    public Optional<Hotel> findAllByPrice(int price) {
+    public List<Hotel> findAllByPrice(int price) {
         List<Hotel> result = em.createQuery("select h from Hotel " + "h where h.min_price <= :price and h.max_price >= :price")
                 .setParameter("price", price)
                 .getResultList();
-        return result.stream().findAny();
+        return result;
     }
 
     @Override
-    public Optional<Hotel> findAllByName(String name) {
-        List<Hotel> result = em.createQuery("select h from Hotel " + "h where h.name = :name", Hotel.class)
-                .setParameter("name", name)
+    public List<Hotel> findAllByName(String name) {
+        List<Hotel> result = em.createQuery("select h from Hotel " + "h where h.name like :name", Hotel.class)
+                .setParameter("name", "%" + name + "%")
                 .getResultList();
-        return result.stream().findAny();
+        return result;
     }
 
     @Override
-    public Optional<Hotel> findAllByLocation(String address) {
-        List<Hotel> result = em.createQuery("select h from Hotel " + "h where h.address = :address", Hotel.class)
-                .setParameter("address", address)
+    public List<Hotel> findAllByLocation(String address) {
+        List<Hotel> result = em.createQuery("select h from Hotel h where h.address like :address", Hotel.class)
+                .setParameter("address", "%" + address + "%")
                 .getResultList();
-        return result.stream().findAny();
+        return result;
     }
 }
