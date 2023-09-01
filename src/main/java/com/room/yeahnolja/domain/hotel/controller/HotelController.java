@@ -7,7 +7,6 @@ import com.room.yeahnolja.domain.hotel.service.HotelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,9 +43,9 @@ public class HotelController {
      */
     @Operation(summary = "호텔 단건 등록 (jpa 사용)")
     @PostMapping("/hotel/save")
-    public ResponseEntity<Void> saveHotel(@RequestBody Hotel hotel) {
+    public ResponseEntity<HotelResponseDto> saveHotel(@RequestBody HotelRequestDto requestDto) {
         try {
-            hotelService.saveHotel(hotel);
+            hotelService.saveHotel(requestDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.OK);

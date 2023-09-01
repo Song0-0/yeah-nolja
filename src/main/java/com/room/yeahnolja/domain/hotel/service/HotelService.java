@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,9 +18,25 @@ public class HotelService {
 //    private final HotelJpaRepository hotelJpaRepository;
     private final HotelRepository hotelRepository;
 
-    public Hotel saveHotel(Hotel hotel) {
-        hotelRepository.save(hotel);
-        return hotel;
+    public HotelResponseDto saveHotel(HotelRequestDto requestDto) {
+        Hotel hotel = new Hotel();
+        hotel.setName(requestDto.getName());
+        hotel.setType(requestDto.getType());
+        hotel.setAddress(requestDto.getAddress());
+        hotel.setPhone(requestDto.getPhone());
+        hotel.setEmail(requestDto.getEmail());
+        hotel.setStar(requestDto.getStar());
+        hotel.setDescription(requestDto.getDescription());
+        hotel.setMin_price(requestDto.getMinPrice());
+        hotel.setMax_price(requestDto.getMaxPrice());
+        hotel.setAvailability_id(requestDto.getAvailabilityId());
+        hotel.setFacilities_id(requestDto.getFacilitiesId());
+        hotel.setRooms(requestDto.getRooms());
+        hotel.setImage_id(requestDto.getImageId());
+
+        Hotel hotelDto = hotelRepository.save(hotel);
+
+        return new HotelResponseDto(hotelDto);
     }
 
     public HotelResponseDto modifyHotel(int hotelId, HotelRequestDto requestDto, int id, String name, String type, String address, String phone, int star, String description, int min_price, int max_price) {

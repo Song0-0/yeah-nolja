@@ -3,8 +3,11 @@ package com.room.yeahnolja.domain.hotel.entity;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "hotel")
@@ -41,8 +44,11 @@ public class Hotel {
     private int rooms;
     private int image_id;
 
-    private String reg_dt;
-    private String mod_dt;
+    @CreationTimestamp
+    private LocalDateTime reg_dt;
+
+    @UpdateTimestamp
+    private LocalDateTime mod_dt;
 
 
     @Override

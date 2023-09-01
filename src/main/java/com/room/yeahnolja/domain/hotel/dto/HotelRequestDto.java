@@ -14,14 +14,14 @@ public class HotelRequestDto {
     private String address;
     private String phone;
     private String email;
-    private Integer star;
+    private int star;
     private String description;
-    private Integer minPrice;
-    private Integer maxPrice;
+    private int minPrice;
+    private int maxPrice;
     private String availabilityId;
-    private Integer facilitiesId;
-    private Integer rooms;
-    private Integer imageId;
+    private int facilitiesId;
+    private int rooms;
+    private int imageId;
 
     private int id;
 }
