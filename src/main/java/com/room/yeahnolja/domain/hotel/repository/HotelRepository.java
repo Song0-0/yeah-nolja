@@ -1,6 +1,5 @@
 package com.room.yeahnolja.domain.hotel.repository;
 
-import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.Optional;
 
 public interface HotelRepository {
     Hotel save(Hotel hotel);
-    HotelResponseDto update(int id, String name, String type, String address, String phone, int star, String description, int min_price, int max_price);
+    Hotel update(int id, Hotel hotel);
     void delete(int id);
     List<Hotel> findAll();
     Optional<Hotel> findById(int id);

@@ -1,6 +1,5 @@
 package com.room.yeahnolja.domain.hotel.repository;
 
-import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
 
 import java.util.*;
@@ -20,20 +19,25 @@ public class HotelMapRepository implements HotelRepository {
     }
 
     //호텔 단건 수정
-    public HotelResponseDto update(int id, String name, String type, String address, String phone, int star, String description, int min_price, int max_price) {
-        Hotel hotel = db.get(id);
-
-        hotel.setName(name);
-        hotel.setType(type);
-        hotel.setAddress(address);
-        hotel.setPhone(phone);
-        hotel.setStar(star);
-        hotel.setDescription(description);
-        hotel.setMin_price(min_price);
-        hotel.setMax_price(max_price);
+    public Hotel update(int id, Hotel hotel) {
+        Hotel hotelEntity = db.get(id);
+        hotelEntity.setName(hotel.getName());
+        hotelEntity.setType(hotel.getType());
+        hotelEntity.setAddress(hotel.getAddress());
+        hotelEntity.setPhone(hotel.getPhone());
+        hotelEntity.setEmail(hotel.getEmail());
+        hotelEntity.setStar(hotel.getStar());
+        hotelEntity.setDescription(hotel.getDescription());
+        hotelEntity.setMin_price(hotel.getMin_price());
+        hotelEntity.setMax_price(hotel.getMax_price());
+        hotelEntity.setAvailability_id(hotel.getAvailability_id());
+        hotelEntity.setFacilities_id(hotel.getFacilities_id());
+        hotelEntity.setRooms(hotel.getRooms());
+        hotelEntity.setImage_id(hotel.getImage_id());
 
         db.put(id, hotel);
-        return null;
+
+        return hotel;
     }
 
     //호텔 단건 삭제

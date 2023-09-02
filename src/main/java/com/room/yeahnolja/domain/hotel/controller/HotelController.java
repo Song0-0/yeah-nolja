@@ -1,7 +1,6 @@
 package com.room.yeahnolja.domain.hotel.controller;
 
 import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
-import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
 import com.room.yeahnolja.domain.hotel.service.HotelService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,13 +29,6 @@ public class HotelController {
      */
     private final HotelService hotelService;
 
-//    @Operation(summary = "호텔 단건 등록 (mybatis 사용)")
-//    @PostMapping("/hotel")
-//    public ResponseEntity<Void> saveHotel(@RequestBody HotelRequestDto requestDto) {
-//        boolean isSaved = hotelService.saveHotel(requestDto);
-//        return isSaved ? new ResponseEntity<>(HttpStatus.CREATED) : new ResponseEntity<>(HttpStatus.OK);
-//    }
-
     /**
      * TODO:
      * 아래의 메서드의 경우 boolean으로 하면 jpaRepository자체에 설정되있는 save() 메서드도 boolean 반환타입을 바꿔야하는데
@@ -43,21 +36,23 @@ public class HotelController {
      */
     @Operation(summary = "호텔 단건 등록 (jpa 사용)")
     @PostMapping("/hotel/save")
-    public ResponseEntity<HotelResponseDto> saveHotel(@RequestBody HotelRequestDto requestDto) {
+    public ResponseEntity<Void> saveHotel(@RequestBody HotelRequestDto requestDto) {
         try {
             hotelService.saveHotel(requestDto);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return ResponseEntity.created(URI.create(""))
+                    .build();
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.ok()
+                    .build();
         }
     }
 
     @Operation(summary = "호텔 단건 수정")
     @PatchMapping("/hotel/{hotelId}")
-    public ResponseEntity<HotelResponseDto> modifyHotel(@PathVariable int hotelId, @RequestBody HotelRequestDto requestDto, int id, String name, String type, String address, String phone, int star, String description, int min_price, int max_price) {
-        HotelResponseDto updateHotel = hotelService.modifyHotel(hotelId, requestDto, id, name, type, address, phone, star, description, min_price, max_price);
+    public ResponseEntity<Void> modifyHotel(@PathVariable int hotelId, @RequestBody HotelRequestDto requestDto) {
+        hotelService.modifyHotel(hotelId, requestDto);
         return ResponseEntity.ok()
-                .body(updateHotel);
+                .build();
     }
 
     @Operation(summary = "호텔 단건 삭제")

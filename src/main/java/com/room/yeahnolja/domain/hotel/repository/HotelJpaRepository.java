@@ -1,11 +1,12 @@
 package com.room.yeahnolja.domain.hotel.repository;
 
-import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,19 +33,54 @@ public class HotelJpaRepository implements HotelRepository {
 
     @Override
     @Transactional
-    public HotelResponseDto update(int id, String name, String type, String address, String phone, int star, String description, int min_price, int max_price) {
-        Hotel hotel = em.find(Hotel.class, id);
-        if (hotel != null) {
-            hotel.setName(name);
-            hotel.setType(type);
-            hotel.setAddress(address);
-            hotel.setPhone(phone);
-            hotel.setStar(star);
-            hotel.setDescription(description);
-            hotel.setMin_price(min_price);
-            hotel.setMax_price(max_price);
+    public Hotel update(int id, Hotel hotel) {
+        Hotel hotelEntity = em.find(Hotel.class, id);
+        if (hotelEntity == null) {
+            throw new EntityNotFoundException("Hotel not found");
         }
-        return null;
+
+        if (hotel != null) {
+            if (StringUtils.hasText(hotel.getName())) {
+                hotelEntity.setName(hotel.getName());
+            }
+            if (StringUtils.hasText(hotel.getType())) {
+                hotelEntity.setType(hotel.getType());
+            }
+            if (StringUtils.hasText(hotel.getAddress())) {
+                hotelEntity.setAddress(hotel.getAddress());
+            }
+            if (StringUtils.hasText(hotel.getPhone())) {
+                hotelEntity.setPhone(hotel.getPhone());
+            }
+            if (StringUtils.hasText(hotel.getEmail())) {
+                hotelEntity.setEmail(hotel.getEmail());
+            }
+            if (hotel.getStar() != 0) {
+                hotelEntity.setStar(hotel.getStar());
+            }
+            if (StringUtils.hasText(hotel.getDescription())) {
+                hotelEntity.setDescription(hotel.getDescription());
+            }
+            if (hotel.getMin_price() != 0) {
+                hotelEntity.setMin_price(hotel.getMin_price());
+            }
+            if (hotel.getMax_price() != 0) {
+                hotelEntity.setMax_price(hotel.getMax_price());
+            }
+            if (StringUtils.hasText(hotel.getAvailability_id())) {
+                hotelEntity.setAvailability_id(hotel.getAvailability_id());
+            }
+            if (hotel.getFacilities_id() != 0) {
+                hotelEntity.setFacilities_id(hotel.getFacilities_id());
+            }
+            if (hotel.getRooms() != 0) {
+                hotelEntity.setRooms(hotel.getRooms());
+            }
+            if (hotel.getImage_id() != 0) {
+                hotelEntity.setImage_id(hotel.getImage_id());
+            }
+        }
+        return hotelEntity;
     }
 
     @Override

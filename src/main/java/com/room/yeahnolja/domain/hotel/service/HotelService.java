@@ -6,6 +6,7 @@ import com.room.yeahnolja.domain.hotel.entity.Hotel;
 import com.room.yeahnolja.domain.hotel.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +40,53 @@ public class HotelService {
         return new HotelResponseDto(hotelDto);
     }
 
-    public HotelResponseDto modifyHotel(int hotelId, HotelRequestDto requestDto, int id, String name, String type, String address, String phone, int star, String description, int min_price, int max_price) {
-        requestDto.setId(hotelId);
-        return hotelRepository.update(id, name, type, address, phone, star, description, min_price, max_price);
+    public HotelResponseDto modifyHotel(int hotelId, HotelRequestDto requestDto) {
+        Hotel hotel = new Hotel();
+        //StringUtils.hasText : !=과 '' 들 다 확인해준다.
+        if (StringUtils.hasText(requestDto.getName())) {
+            hotel.setName(requestDto.getName());
+        }
+
+        if (StringUtils.hasText((requestDto.getType()))) {
+            hotel.setType(requestDto.getType());
+        }
+        if (StringUtils.hasText(requestDto.getAddress())) {
+            hotel.setAddress(requestDto.getAddress());
+        }
+        if (StringUtils.hasText(requestDto.getPhone())) {
+            hotel.setPhone(requestDto.getPhone());
+        }
+        if (StringUtils.hasText(requestDto.getEmail())) {
+            hotel.setEmail(requestDto.getEmail());
+        }
+        if (requestDto.getStar() != 0) {
+            hotel.setStar(requestDto.getStar());
+        }
+        if (StringUtils.hasText(requestDto.getDescription())) {
+            hotel.setDescription(requestDto.getDescription());
+        }
+        if (requestDto.getMinPrice() != 0) {
+            hotel.setMin_price(requestDto.getMinPrice());
+        }
+        if (requestDto.getMaxPrice() != 0) {
+            hotel.setMax_price(requestDto.getMaxPrice());
+        }
+        if (StringUtils.hasText(requestDto.getAvailabilityId())) {
+            hotel.setAvailability_id(requestDto.getAvailabilityId());
+        }
+        if (requestDto.getFacilitiesId() != 0) {
+            hotel.setFacilities_id(requestDto.getFacilitiesId());
+        }
+        if (requestDto.getRooms() != 0) {
+            hotel.setRooms(requestDto.getRooms());
+        }
+        if (requestDto.getImageId() != 0) {
+            hotel.setImage_id(requestDto.getImageId());
+        }
+
+        Hotel update = hotelRepository.update(hotelId, hotel);
+
+        return new HotelResponseDto(update);
     }
 
     public void removeHotel(int hotelId) {
