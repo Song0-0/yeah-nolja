@@ -1,6 +1,7 @@
 package com.room.yeahnolja.domain.hotel.controller;
 
 import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
+import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
 import com.room.yeahnolja.domain.hotel.service.HotelService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,9 +67,10 @@ public class HotelController {
 
     @Operation(summary = "호텔 전체 조회")
     @GetMapping("/hotels")
-    public ResponseEntity<List<Hotel>> getAllHotels() {
-        List<Hotel> allHotels = hotelService.getAllHotels();
-        return new ResponseEntity<>(allHotels, HttpStatus.OK);
+    public ResponseEntity<List<HotelResponseDto>> getAllHotels() {
+        List<HotelResponseDto> allHotels = hotelService.getAllHotels();
+        return ResponseEntity.ok()
+                .body(allHotels);
     }
 
     @Operation(summary = "호텔 단건 조회")

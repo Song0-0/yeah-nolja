@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HotelResponseDto {
+    private int id;
     private String name;
     private String type;
     private String address;
@@ -21,7 +22,6 @@ public class HotelResponseDto {
     private int rooms;
     private int imageId;
 
-    private int id;
     private String regDt;
     private String modDt;
 
@@ -40,5 +40,7 @@ public class HotelResponseDto {
         this.facilitiesId = hotelDto.getFacilities_id();
         this.rooms = hotelDto.getRooms();
         this.imageId = hotelDto.getImage_id();
+        this.regDt = String.valueOf(hotelDto.getReg_dt());
+        this.modDt = String.valueOf(hotelDto.getMod_dt());
     }
 }

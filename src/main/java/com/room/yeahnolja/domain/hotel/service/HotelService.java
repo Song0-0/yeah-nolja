@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -93,8 +94,12 @@ public class HotelService {
         hotelRepository.delete(hotelId);
     }
 
-    public List<Hotel> getAllHotels() {
-        return hotelRepository.findAll();
+    public List<HotelResponseDto> getAllHotels() {
+        List<Hotel> allHotels = hotelRepository.findAll();
+        List<HotelResponseDto> allHotelResponseDto = allHotels.stream()
+                .map(hotel -> new HotelResponseDto(hotel))
+                .collect(Collectors.toList());
+        return allHotelResponseDto;
     }
 
     public Optional<Hotel> getHotel(int hotelId) {
