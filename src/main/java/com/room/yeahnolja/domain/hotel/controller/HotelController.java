@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @Tag(name = "Hotel Controller")
 @RestController
@@ -83,9 +82,10 @@ public class HotelController {
 
     @Operation(summary = "특정 지역에 대한 호텔 조회")
     @GetMapping("/hotels/location")
-    public ResponseEntity<List<Hotel>> getHotelsByLocation(@RequestParam String location) {
-        List<Hotel> hotelsByLocation = hotelService.getHotelsByLocation(location);
-        return new ResponseEntity<>(hotelsByLocation, HttpStatus.OK);
+    public ResponseEntity<List<HotelResponseDto>> getHotelsByLocation(@RequestParam String location) {
+        List<HotelResponseDto> hotelsByLocation = hotelService.getHotelsByLocation(location);
+        return ResponseEntity.ok()
+                .body(hotelsByLocation);
     }
 
     @Operation(summary = "특정 가격에 대한 호텔 조회")

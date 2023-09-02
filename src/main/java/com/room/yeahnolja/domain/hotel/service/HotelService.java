@@ -108,9 +108,19 @@ public class HotelService {
         return new HotelResponseDto(hotel);
     }
 
-    public List<Hotel> getHotelsByLocation(String location) {
-        return hotelRepository.findAllByLocation(location);
+    /**
+     * TODO:
+     * hotel -> new HotelResponseDto(hotel) = HotelResponseDto::new 동일한 표현
+     * @param location
+     * @return
+     */
+    public List<HotelResponseDto> getHotelsByLocation(String location) {
+        List<Hotel> allByLocation = hotelRepository.findAllByLocation(location);
+        return allByLocation.stream()
+                .map(HotelResponseDto::new)
+                .collect(Collectors.toList());
     }
+
 
     public List<Hotel> getHotelsByPrice(int price) {
         return hotelRepository.findAllByPrice(price);
