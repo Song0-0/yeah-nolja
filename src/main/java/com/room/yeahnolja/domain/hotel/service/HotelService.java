@@ -157,7 +157,10 @@ public class HotelService {
 //        dto.setModDt(hotel.getMod_dt());
 //        return dto;
 //    }
-    public List<Hotel> getHotelsByName(String name) {
-        return hotelRepository.findAllByName(name);
+    public List<HotelResponseDto> getHotelsByName(String name) {
+        List<Hotel> allByName = hotelRepository.findAllByName(name);
+        return allByName.stream()
+                .map(hotel -> new HotelResponseDto(hotel))
+                .collect(Collectors.toList());
     }
 }

@@ -98,8 +98,9 @@ public class HotelController {
 
     @Operation(summary = "특정 호텔명에 대한 호텔 조회")
     @GetMapping("/hotels/name")
-    public ResponseEntity<List<Hotel>> getHotelsByName(@RequestParam String name) {
-        List<Hotel> hotelsByName = hotelService.getHotelsByName(name);
-        return new ResponseEntity<>(hotelsByName, HttpStatus.OK);
+    public ResponseEntity<List<HotelResponseDto>> getHotelsByName(@RequestParam String name) {
+        List<HotelResponseDto> hotelsByName = hotelService.getHotelsByName(name);
+        return ResponseEntity.ok()
+                .body(hotelsByName);
     }
 }
