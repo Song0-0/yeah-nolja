@@ -75,11 +75,10 @@ public class HotelController {
 
     @Operation(summary = "호텔 단건 조회")
     @GetMapping("/hotels/{hotelId}")
-    public ResponseEntity<Hotel> getHotel(@PathVariable int hotelId) {
-        Optional<Hotel> hotel = hotelService.getHotel(hotelId);
-        return hotel
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<HotelResponseDto> getHotel(@PathVariable int hotelId) {
+        HotelResponseDto hotel = hotelService.getHotel(hotelId);
+        return ResponseEntity.ok()
+                .body(hotel);
     }
 
     @Operation(summary = "특정 지역에 대한 호텔 조회")

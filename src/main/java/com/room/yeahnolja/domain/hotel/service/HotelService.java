@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -102,8 +102,10 @@ public class HotelService {
         return allHotelResponseDto;
     }
 
-    public Optional<Hotel> getHotel(int hotelId) {
-        return hotelRepository.findById(hotelId);
+    public HotelResponseDto getHotel(int hotelId) {
+        Hotel hotel = hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new EntityNotFoundException("Hotel not found with id " + hotelId));
+        return new HotelResponseDto(hotel);
     }
 
     public List<Hotel> getHotelsByLocation(String location) {
