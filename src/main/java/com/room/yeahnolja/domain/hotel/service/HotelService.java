@@ -111,6 +111,7 @@ public class HotelService {
     /**
      * TODO:
      * hotel -> new HotelResponseDto(hotel) = HotelResponseDto::new 동일한 표현
+     *
      * @param location
      * @return
      */
@@ -122,8 +123,11 @@ public class HotelService {
     }
 
 
-    public List<Hotel> getHotelsByPrice(int price) {
-        return hotelRepository.findAllByPrice(price);
+    public List<HotelResponseDto> getHotelsByPrice(int price) {
+        List<Hotel> allByPrice = hotelRepository.findAllByPrice(price);
+        return allByPrice.stream()
+                .map(HotelResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     /**

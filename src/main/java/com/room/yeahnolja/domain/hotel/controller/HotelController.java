@@ -90,9 +90,10 @@ public class HotelController {
 
     @Operation(summary = "특정 가격에 대한 호텔 조회")
     @GetMapping("/hotels/price")
-    public ResponseEntity<List<Hotel>> getHotelsByPrice(@RequestParam int price) {
-        List<Hotel> hotelsByPrice = hotelService.getHotelsByPrice(price);
-        return new ResponseEntity<>(hotelsByPrice, HttpStatus.OK);
+    public ResponseEntity<List<HotelResponseDto>> getHotelsByPrice(@RequestParam int price) {
+        List<HotelResponseDto> hotelsByPrice = hotelService.getHotelsByPrice(price);
+        return ResponseEntity.ok()
+                .body(hotelsByPrice);
     }
 
     @Operation(summary = "특정 호텔명에 대한 호텔 조회")
