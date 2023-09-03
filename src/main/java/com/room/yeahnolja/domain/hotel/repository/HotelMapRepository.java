@@ -2,6 +2,7 @@ package com.room.yeahnolja.domain.hotel.repository;
 
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 //@Repository
@@ -11,8 +12,47 @@ public class HotelMapRepository implements HotelRepository {
 
     private Map<Integer, Hotel> db = new HashMap<>();
 
+    @PostConstruct
+    void init() {
+        db.put(id, Hotel.builder()
+                .id(1)
+                .name("힐튼1")
+                .type("관광호텔업")
+                .address("서울시")
+                .phone("010-4564-4564")
+                .email("hilton@hiilton.com")
+                .star(5)
+                .description("힐튼 설명")
+                .min_price(500000)
+                .max_price(1500000)
+                .availability_id("Y")
+                .facilities_id(1)
+                .rooms(250)
+                .image_id(1)
+                .build());
+        id++;
+        db.put(id, Hotel.builder()
+                .id(2)
+                .name("힐튼2")
+                .type("관광호텔업")
+                .address("서울시")
+                .phone("010-4564-4564")
+                .email("hilton@hiilton.com")
+                .star(5)
+                .description("힐튼 설명")
+                .min_price(500000)
+                .max_price(1500000)
+                .availability_id("Y")
+                .facilities_id(1)
+                .rooms(250)
+                .image_id(1)
+                .build());
+        id++;
+    }
+
     //호텔 단건 생성
     public Hotel save(Hotel hotel) {
+        hotel.setId(id);
         db.put(id, hotel);
         id++;
         return hotel;
@@ -20,24 +60,8 @@ public class HotelMapRepository implements HotelRepository {
 
     //호텔 단건 수정
     public Hotel update(int id, Hotel hotel) {
-        Hotel hotelEntity = db.get(id);
-        hotelEntity.setName(hotel.getName());
-        hotelEntity.setType(hotel.getType());
-        hotelEntity.setAddress(hotel.getAddress());
-        hotelEntity.setPhone(hotel.getPhone());
-        hotelEntity.setEmail(hotel.getEmail());
-        hotelEntity.setStar(hotel.getStar());
-        hotelEntity.setDescription(hotel.getDescription());
-        hotelEntity.setMin_price(hotel.getMin_price());
-        hotelEntity.setMax_price(hotel.getMax_price());
-        hotelEntity.setAvailability_id(hotel.getAvailability_id());
-        hotelEntity.setFacilities_id(hotel.getFacilities_id());
-        hotelEntity.setRooms(hotel.getRooms());
-        hotelEntity.setImage_id(hotel.getImage_id());
-
-        db.put(id, hotel);
-
-        return hotel;
+        Hotel hotelEntity = db.put(id, hotel);
+        return hotelEntity;
     }
 
     //호텔 단건 삭제
@@ -47,12 +71,7 @@ public class HotelMapRepository implements HotelRepository {
 
     //호텔 전체 조회
     public List<Hotel> findAll() {
-        List<Hotel> values = (List<Hotel>) db.values();
-
-        for (Map.Entry<Integer, Hotel> entrySet : db.entrySet()) {
-            System.out.println(entrySet.getKey() + ":" + entrySet.getValue().toString());
-        }
-
+        List<Hotel> values = new ArrayList<>(db.values());
         return values;
     }
 

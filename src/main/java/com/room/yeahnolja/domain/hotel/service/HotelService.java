@@ -42,7 +42,8 @@ public class HotelService {
     }
 
     public HotelResponseDto modifyHotel(int hotelId, HotelRequestDto requestDto) {
-        Hotel hotel = new Hotel();
+        Hotel hotel = hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new EntityNotFoundException("Hotel not found with id " + hotelId));
         //StringUtils.hasText : !=과 '' 들 다 확인해준다.
         if (StringUtils.hasText(requestDto.getName())) {
             hotel.setName(requestDto.getName());
