@@ -3,6 +3,7 @@ package com.room.yeahnolja.domain.hotel.service;
 import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
 import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
+import com.room.yeahnolja.domain.hotel.repository.HotelJpaRepository;
 import com.room.yeahnolja.domain.hotel.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class HotelService {
     //    private final HotelMapper hotelMapper;
 //    private final HotelJpaRepository hotelJpaRepository;
     private final HotelRepository hotelRepository;
+    private final HotelJpaRepository hotelJpaRepository;
+
 
     public HotelResponseDto saveHotel(HotelRequestDto requestDto) {
         Hotel hotel = new Hotel();
