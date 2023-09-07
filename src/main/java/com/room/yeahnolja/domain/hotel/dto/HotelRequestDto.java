@@ -18,10 +18,8 @@ public class HotelRequestDto {
     private String description;
     private int minPrice;
     private int maxPrice;
+    private int rooms;
     private String availabilityId;
     private int facilitiesId;
-    private int rooms;
     private int imageId;
-
-    private int id;
 }
