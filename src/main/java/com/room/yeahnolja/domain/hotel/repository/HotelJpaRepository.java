@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 //@Repository
-public interface HotelJpaRepository extends JpaRepository {
-    List<Hotel> findAllByLocation(String address);
-    List<Hotel> findAllByPrice(int price);
-    List<Hotel> findAllByName(String name);
+//public interface HotelJpaRepository extends JpaRepository {
+//    List<Hotel> findAllByLocation(String address);
+//    List<Hotel> findAllByPrice(int price);
+//    List<Hotel> findAllByName(String name);
 
-}
+//}

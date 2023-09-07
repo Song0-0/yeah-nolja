@@ -3,7 +3,6 @@ package com.room.yeahnolja.domain.hotel.service;
 import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
 import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
-import com.room.yeahnolja.domain.hotel.repository.HotelJpaRepository;
 import com.room.yeahnolja.domain.hotel.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class HotelService {
     //    private final HotelMapper hotelMapper;
 //    private final HotelJpaRepository hotelJpaRepository;
     private final HotelRepository hotelRepository;
-    private final HotelJpaRepository hotelJpaRepository;
+//    private final HotelJpaRepository hotelJpaRepository;
 
 
     public HotelResponseDto saveHotel(HotelRequestDto requestDto) {
@@ -32,12 +31,12 @@ public class HotelService {
         hotel.setEmail(requestDto.getEmail());
         hotel.setStar(requestDto.getStar());
         hotel.setDescription(requestDto.getDescription());
-        hotel.setMin_price(requestDto.getMinPrice());
-        hotel.setMax_price(requestDto.getMaxPrice());
-        hotel.setAvailability_id(requestDto.getAvailabilityId());
-        hotel.setFacilities_id(requestDto.getFacilitiesId());
+        hotel.setMinPrice(requestDto.getMinPrice());
+        hotel.setMaxPrice(requestDto.getMaxPrice());
+        hotel.setAvailabilityId(requestDto.getAvailabilityId());
+        hotel.setFacilitiesId(requestDto.getFacilitiesId());
         hotel.setRooms(requestDto.getRooms());
-        hotel.setImage_id(requestDto.getImageId());
+        hotel.setImageId(requestDto.getImageId());
 
         Hotel hotelDto = hotelRepository.save(hotel);
 
@@ -71,22 +70,22 @@ public class HotelService {
             hotel.setDescription(requestDto.getDescription());
         }
         if (requestDto.getMinPrice() != 0) {
-            hotel.setMin_price(requestDto.getMinPrice());
+            hotel.setMinPrice(requestDto.getMinPrice());
         }
         if (requestDto.getMaxPrice() != 0) {
-            hotel.setMax_price(requestDto.getMaxPrice());
+            hotel.setMaxPrice(requestDto.getMaxPrice());
         }
         if (StringUtils.hasText(requestDto.getAvailabilityId())) {
-            hotel.setAvailability_id(requestDto.getAvailabilityId());
+            hotel.setAvailabilityId(requestDto.getAvailabilityId());
         }
         if (requestDto.getFacilitiesId() != 0) {
-            hotel.setFacilities_id(requestDto.getFacilitiesId());
+            hotel.setFacilitiesId(requestDto.getFacilitiesId());
         }
         if (requestDto.getRooms() != 0) {
             hotel.setRooms(requestDto.getRooms());
         }
         if (requestDto.getImageId() != 0) {
-            hotel.setImage_id(requestDto.getImageId());
+            hotel.setImageId(requestDto.getImageId());
         }
 
         Hotel update = hotelRepository.update(hotelId, hotel);

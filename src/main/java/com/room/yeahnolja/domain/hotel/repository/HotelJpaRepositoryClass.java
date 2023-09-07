@@ -68,7 +68,7 @@ public class HotelJpaRepositoryClass implements HotelRepository {
 
     @Override
     public List<Hotel> findAllByPrice(int price) {
-        List<Hotel> result = em.createQuery("select h from Hotel " + "h where h.min_price <= :price and h.max_price >= :price")
+        List<Hotel> result = em.createQuery("select h from Hotel " + "h where h.minPrice <= :price and h.maxPrice >= :price")
                 .setParameter("price", price)
                 .getResultList();
         return result;

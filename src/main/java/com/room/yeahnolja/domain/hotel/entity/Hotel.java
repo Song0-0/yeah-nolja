@@ -34,26 +34,26 @@ public class Hotel {
     @NonNull
     private String description;
     @NonNull
-    private int min_price;
+    private int minPrice;
     @NonNull
-    private int max_price;
+    private int maxPrice;
 
 
     private String email;
-    private String availability_id;
-    private int facilities_id;
+    private String availabilityId;
+    private int facilitiesId;
     private int rooms;
-    private int image_id;
+    private int imageId;
 
     @CreationTimestamp
-    private LocalDateTime reg_dt;
+    private LocalDateTime regDt;
 
     @UpdateTimestamp
-    private LocalDateTime mod_dt;
+    private LocalDateTime modDt;
 
 
     @Override
     public String toString() {
-        return name + " " + type + " " + address + " " + phone + " " + star + " " + description + " " + min_price + " " + max_price;
+        return name + " " + type + " " + address + " " + phone + " " + star + " " + description + " " + minPrice + " " + maxPrice;
     }
 }

@@ -1,8 +1,10 @@
 package com.room.yeahnolja.domain.hotel.repository;
 
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.*;
 
 //@Repository
@@ -23,29 +25,34 @@ public class HotelMapRepository implements HotelRepository {
                 .email("hilton@hiilton.com")
                 .star(5)
                 .description("힐튼 설명")
-                .min_price(500000)
-                .max_price(1500000)
-                .availability_id("Y")
-                .facilities_id(1)
+                .minPrice(500000)
+                .maxPrice(1500000)
+                .availabilityId("Y")
+                .facilitiesId(1)
                 .rooms(250)
-                .image_id(1)
+                .imageId(1)
+                .regDt(LocalDateTime.of(2023, 9, 3, 10, 20, 30))
+                .modDt(LocalDateTime.of(2023, 9, 6, 10, 20, 30))
                 .build());
         id++;
+
         db.put(id, Hotel.builder()
                 .id(2)
-                .name("힐튼2")
-                .type("관광호텔업")
-                .address("서울시")
+                .name("경원재 앰배서더 인천")
+                .type("한국전통호텔업")
+                .address("인천광역시")
                 .phone("010-4564-4564")
-                .email("hilton@hiilton.com")
+                .email("incheonhotel@hotel.com")
                 .star(5)
-                .description("힐튼 설명")
-                .min_price(500000)
-                .max_price(1500000)
-                .availability_id("Y")
-                .facilities_id(1)
-                .rooms(250)
-                .image_id(1)
+                .description("경원재 설명")
+                .minPrice(800000)
+                .maxPrice(2000000)
+                .availabilityId("Y")
+                .facilitiesId(2)
+                .rooms(300)
+                .imageId(2)
+                .regDt(LocalDateTime.of(2023, 9, 2, 10, 20, 30))
+                .modDt(LocalDateTime.of(2023, 9, 5, 10, 20, 30))
                 .build());
         id++;
     }
@@ -85,7 +92,7 @@ public class HotelMapRepository implements HotelRepository {
     public List<Hotel> findAllByPrice(int price) {
         List<Hotel> hotels = new ArrayList<>();
         for (Map.Entry<Integer, Hotel> entrySet : db.entrySet()) {
-            if (price >= entrySet.getValue().getMin_price() && price <= entrySet.getValue().getMax_price()) {
+            if (price >= entrySet.getValue().getMinPrice() && price <= entrySet.getValue().getMaxPrice()) {
                 hotels.add(entrySet.getValue());
             }
         }

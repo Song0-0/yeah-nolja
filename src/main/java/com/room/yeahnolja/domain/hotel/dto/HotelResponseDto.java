@@ -34,13 +34,13 @@ public class HotelResponseDto {
         this.email = hotelDto.getEmail();
         this.star = hotelDto.getStar();
         this.description = hotelDto.getDescription();
-        this.minPrice = hotelDto.getMin_price();
-        this.maxPrice = hotelDto.getMax_price();
-        this.availabilityId = hotelDto.getAvailability_id();
-        this.facilitiesId = hotelDto.getFacilities_id();
+        this.minPrice = hotelDto.getMinPrice();
+        this.maxPrice = hotelDto.getMaxPrice();
+        this.availabilityId = hotelDto.getAvailabilityId();
+        this.facilitiesId = hotelDto.getFacilitiesId();
         this.rooms = hotelDto.getRooms();
-        this.imageId = hotelDto.getImage_id();
-        this.regDt = String.valueOf(hotelDto.getReg_dt());
-        this.modDt = String.valueOf(hotelDto.getMod_dt());
+        this.imageId = hotelDto.getImageId();
+        this.regDt = String.valueOf(hotelDto.getRegDt());
+        this.modDt = String.valueOf(hotelDto.getModDt());
     }
 }
