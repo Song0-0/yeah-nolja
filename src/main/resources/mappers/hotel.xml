@@ -3,9 +3,9 @@
 <mapper namespace="com.room.yeahnolja.domain.hotel.mapper.HotelMapper">
 
     <insert id="save" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelRequestDto">
-        insert into hotel (name, type, address, phone, star, description, min_price, max_price, facilities_id, rooms)
+        insert into hotel (name, type, address, phone, star, description, min_price, max_price, rooms)
         values (#{name}, #{type}, #{address}, #{phone}, #{star}, #{description}, #{minPrice}, #{maxPrice},
-                #{facilitiesId}, #{rooms})
+                #{rooms})
     </insert>
 
     <select id="findAll" resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
@@ -18,7 +18,6 @@
                description,
                min_price,
                max_price,
-               facilities_id,
                rooms,
                reg_dt,
                mod_dt
@@ -35,7 +34,6 @@
                description,
                min_price,
                max_price,
-               facilities_id,
                rooms,
                reg_dt,
                mod_dt
@@ -54,7 +52,6 @@
                description,
                min_price,
                max_price,
-               facilities_id,
                rooms,
                reg_dt,
                mod_dt
@@ -73,7 +70,6 @@
         description,
         min_price,
         max_price,
-        facilities_id,
         rooms,
         reg_dt,
         mod_dt
@@ -116,17 +112,8 @@
             <if test="maxPrice != null">
                 max_price= #{maxPrice},
             </if>
-            <if test="availabilityId != null">
-                availability_id= #{availabilityId},
-            </if>
-            <if test="facilitiesId != null">
-                facilities_id= #{facilitiesId},
-            </if>
             <if test="rooms != null">
                 rooms= #{rooms},
-            </if>
-            <if test="imageId != null">
-                image_id= #{imageId}
             </if>
         </trim>
         where id = #{id}

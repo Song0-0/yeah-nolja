@@ -33,10 +33,7 @@ public class HotelService {
         hotel.setDescription(requestDto.getDescription());
         hotel.setMinPrice(requestDto.getMinPrice());
         hotel.setMaxPrice(requestDto.getMaxPrice());
-        hotel.setAvailabilityId(requestDto.getAvailabilityId());
-        hotel.setFacilitiesId(requestDto.getFacilitiesId());
         hotel.setRooms(requestDto.getRooms());
-        hotel.setImageId(requestDto.getImageId());
 
         Hotel hotelDto = hotelRepository.save(hotel);
 
@@ -65,14 +62,11 @@ public class HotelService {
         modifyStringIfNotNull(requestDto.getPhone(), hotel::setPhone);
         modifyStringIfNotNull(requestDto.getEmail(), hotel::setEmail);
         modifyStringIfNotNull(requestDto.getDescription(), hotel::setDescription);
-        modifyStringIfNotNull(requestDto.getAvailabilityId(), hotel::setAvailabilityId);
 
         modifyIntIfNotZero(requestDto.getStar(), hotel::setStar);
         modifyIntIfNotZero(requestDto.getMinPrice(), hotel::setMinPrice);
         modifyIntIfNotZero(requestDto.getMaxPrice(), hotel::setMaxPrice);
-        modifyIntIfNotZero(requestDto.getFacilitiesId(), hotel::setFacilitiesId);
         modifyIntIfNotZero(requestDto.getRooms(), hotel::setRooms);
-        modifyIntIfNotZero(requestDto.getImageId(), hotel::setImageId);
 
         Hotel update = hotelRepository.update(hotelId, hotel);
 

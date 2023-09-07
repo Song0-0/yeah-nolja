@@ -40,20 +40,11 @@ public class Hotel {
 
 
     private String email;
-    private String availabilityId;
-    private int facilitiesId;
     private int rooms;
-    private int imageId;
 
     @CreationTimestamp
     private LocalDateTime regDt;
 
     @UpdateTimestamp
     private LocalDateTime modDt;
-
-
-    @Override
-    public String toString() {
-        return name + " " + type + " " + address + " " + phone + " " + star + " " + description + " " + minPrice + " " + maxPrice;
-    }
 }

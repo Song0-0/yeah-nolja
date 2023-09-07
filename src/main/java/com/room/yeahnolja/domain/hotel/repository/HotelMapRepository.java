@@ -26,10 +26,7 @@ public class HotelMapRepository implements HotelRepository {
                 .description("힐튼 설명")
                 .minPrice(500000)
                 .maxPrice(1500000)
-                .availabilityId("Y")
-                .facilitiesId(1)
                 .rooms(250)
-                .imageId(1)
                 .regDt(LocalDateTime.of(2023, 9, 3, 10, 20, 30))
                 .modDt(LocalDateTime.of(2023, 9, 6, 10, 20, 30))
                 .build());
@@ -46,10 +43,7 @@ public class HotelMapRepository implements HotelRepository {
                 .description("경원재 설명")
                 .minPrice(800000)
                 .maxPrice(2000000)
-                .availabilityId("Y")
-                .facilitiesId(2)
                 .rooms(300)
-                .imageId(2)
                 .regDt(LocalDateTime.of(2023, 9, 2, 10, 20, 30))
                 .modDt(LocalDateTime.of(2023, 9, 5, 10, 20, 30))
                 .build());
