@@ -23,14 +23,11 @@ public class HotelController {
     @Operation(summary = "호텔 단건 등록 (jpa 사용)")
     @PostMapping("/save")
     public ResponseEntity<Void> saveHotel(@RequestBody HotelRequestDto requestDto) {
-        try {
-            hotelService.saveHotel(requestDto);
-            return ResponseEntity.created(URI.create(""))
-                    .build();
-        } catch (Exception e) {
-            return ResponseEntity.ok()
-                    .build();
-        }
+        HotelResponseDto hotelResponseDto = hotelService.saveHotel(requestDto);
+        int id = hotelResponseDto.getId();
+        URI location = URI.create("/hotels/" + id);
+        return ResponseEntity.created(location)
+                .build();
     }
 
     @Operation(summary = "호텔 단건 수정")
