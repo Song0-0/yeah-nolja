@@ -19,11 +19,6 @@ public class HotelJpaRepositoryClass implements HotelRepository {
 
     @Override
     @Transactional
-    /**
-     * TODO:
-     * No EntityManager with actual transaction available for current thread - cannot reliably process 'persist' call 오류는 보통 트랜잭션이 시작되지 않았을 때 발생합니다.
-     * 이런 오류가나서 @Transactional 을 해줬다..
-     */
     public Hotel save(Hotel hotel) {
         em.persist(hotel);
         return hotel;

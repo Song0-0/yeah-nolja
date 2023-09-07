@@ -111,13 +111,6 @@ public class HotelService {
         return new HotelResponseDto(hotel);
     }
 
-    /**
-     * TODO:
-     * hotel -> new HotelResponseDto(hotel) = HotelResponseDto::new 동일한 표현
-     *
-     * @param location
-     * @return
-     */
     public List<HotelResponseDto> getHotelsByLocation(String location) {
         List<Hotel> allByLocation = hotelRepository.findAllByLocation(location);
         return allByLocation.stream()

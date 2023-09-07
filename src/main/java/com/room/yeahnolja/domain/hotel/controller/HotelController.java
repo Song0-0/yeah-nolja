@@ -18,22 +18,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class HotelController {
-    /**
-     * TODO:
-     * private final 설정으로 객체 사용을 하고 있으니 생성자 주입방식임을 알 수 있다.
-     * 따라서, HotelController 객체가 생성될 때, hotelService에 주입될 수 있도록 설정해줘야한다.
-     * 그래서! 직접 생성자를 넣을 수도 있지만,
-     * final이나 @NonNull로 선언된 필드만을 파라미터로 갖는 생성자를 자동으로 생성해주는
-     *
-     * @RequiredArgsConstructor를 사용한다.
-     */
+
     private final HotelService hotelService;
 
-    /**
-     * TODO:
-     * 아래의 메서드의 경우 boolean으로 하면 jpaRepository자체에 설정되있는 save() 메서드도 boolean 반환타입을 바꿔야하는데
-     * 이건 어떻게 ResponseEntity가 적용될 수 있는지..?
-     */
     @Operation(summary = "호텔 단건 등록 (jpa 사용)")
     @PostMapping("/hotel/save")
     public ResponseEntity<Void> saveHotel(@RequestBody HotelRequestDto requestDto) {
