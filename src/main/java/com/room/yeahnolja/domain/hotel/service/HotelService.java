@@ -10,16 +10,16 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class HotelService {
 
-//    private final HotelMapper hotelMapper;
+    //    private final HotelMapper hotelMapper;
 //    private final HotelJpaRepository hotelJpaRepository;
     private final HotelRepository hotelRepository;
-
 
 
     public HotelResponseDto saveHotel(HotelRequestDto requestDto) {
@@ -43,50 +43,36 @@ public class HotelService {
         return new HotelResponseDto(hotelDto);
     }
 
+    private void modifyStringIfNotNull(String value, Consumer<String> modifier) {
+        if (StringUtils.hasText(value)) {
+            modifier.accept(value);
+        }
+    }
+
+    private void modifyIntIfNotZero(int value, Consumer<Integer> modifier) {
+        if (value != 0) {
+            modifier.accept(value);
+        }
+    }
+
     public HotelResponseDto modifyHotel(int hotelId, HotelRequestDto requestDto) {
         Hotel hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new EntityNotFoundException("Hotel not found with id " + hotelId));
 
-        if (StringUtils.hasText(requestDto.getName())) {
-            hotel.setName(requestDto.getName());
-        }
+        modifyStringIfNotNull(requestDto.getName(), hotel::setName);
+        modifyStringIfNotNull(requestDto.getType(), hotel::setType);
+        modifyStringIfNotNull(requestDto.getAddress(), hotel::setAddress);
+        modifyStringIfNotNull(requestDto.getPhone(), hotel::setPhone);
+        modifyStringIfNotNull(requestDto.getEmail(), hotel::setEmail);
+        modifyStringIfNotNull(requestDto.getDescription(), hotel::setDescription);
+        modifyStringIfNotNull(requestDto.getAvailabilityId(), hotel::setAvailabilityId);
 
-        if (StringUtils.hasText((requestDto.getType()))) {
-            hotel.setType(requestDto.getType());
-        }
-        if (StringUtils.hasText(requestDto.getAddress())) {
-            hotel.setAddress(requestDto.getAddress());
-        }
-        if (StringUtils.hasText(requestDto.getPhone())) {
-            hotel.setPhone(requestDto.getPhone());
-        }
-        if (StringUtils.hasText(requestDto.getEmail())) {
-            hotel.setEmail(requestDto.getEmail());
-        }
-        if (requestDto.getStar() != 0) {
-            hotel.setStar(requestDto.getStar());
-        }
-        if (StringUtils.hasText(requestDto.getDescription())) {
-            hotel.setDescription(requestDto.getDescription());
-        }
-        if (requestDto.getMinPrice() != 0) {
-            hotel.setMinPrice(requestDto.getMinPrice());
-        }
-        if (requestDto.getMaxPrice() != 0) {
-            hotel.setMaxPrice(requestDto.getMaxPrice());
-        }
-        if (StringUtils.hasText(requestDto.getAvailabilityId())) {
-            hotel.setAvailabilityId(requestDto.getAvailabilityId());
-        }
-        if (requestDto.getFacilitiesId() != 0) {
-            hotel.setFacilitiesId(requestDto.getFacilitiesId());
-        }
-        if (requestDto.getRooms() != 0) {
-            hotel.setRooms(requestDto.getRooms());
-        }
-        if (requestDto.getImageId() != 0) {
-            hotel.setImageId(requestDto.getImageId());
-        }
+        modifyIntIfNotZero(requestDto.getStar(), hotel::setStar);
+        modifyIntIfNotZero(requestDto.getMinPrice(), hotel::setMinPrice);
+        modifyIntIfNotZero(requestDto.getMaxPrice(), hotel::setMaxPrice);
+        modifyIntIfNotZero(requestDto.getFacilitiesId(), hotel::setFacilitiesId);
+        modifyIntIfNotZero(requestDto.getRooms(), hotel::setRooms);
+        modifyIntIfNotZero(requestDto.getImageId(), hotel::setImageId);
 
         Hotel update = hotelRepository.update(hotelId, hotel);
 
