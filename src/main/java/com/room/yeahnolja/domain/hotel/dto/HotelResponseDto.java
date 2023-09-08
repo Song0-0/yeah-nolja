@@ -3,9 +3,11 @@ package com.room.yeahnolja.domain.hotel.dto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class HotelResponseDto {
     private int id;
     private String name;
