@@ -27,7 +27,7 @@ public class HotelService {
         hotel.setName(requestDto.getName());
         hotel.setType(requestDto.getType());
         hotel.setAddress(requestDto.getAddress());
-        hotel.setPhone(requestDto.getPhone());
+        hotel.setContact(requestDto.getContact());
         hotel.setEmail(requestDto.getEmail());
         hotel.setStar(requestDto.getStar());
         hotel.setDescription(requestDto.getDescription());
@@ -59,7 +59,7 @@ public class HotelService {
         modifyStringIfNotNull(requestDto.getName(), hotel::setName);
         modifyStringIfNotNull(requestDto.getType(), hotel::setType);
         modifyStringIfNotNull(requestDto.getAddress(), hotel::setAddress);
-        modifyStringIfNotNull(requestDto.getPhone(), hotel::setPhone);
+        modifyStringIfNotNull(requestDto.getContact(), hotel::setContact);
         modifyStringIfNotNull(requestDto.getEmail(), hotel::setEmail);
         modifyStringIfNotNull(requestDto.getDescription(), hotel::setDescription);
 

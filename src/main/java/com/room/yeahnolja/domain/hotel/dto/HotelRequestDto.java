@@ -10,7 +10,7 @@ public class HotelRequestDto {
     private String name;
     private String type;
     private String address;
-    private String phone;
+    private String contact;
     private String email;
     private int star;
     private String description;

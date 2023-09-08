@@ -3,8 +3,8 @@
 <mapper namespace="com.room.yeahnolja.domain.hotel.mapper.HotelMapper">
 
     <insert id="save" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelRequestDto">
-        insert into hotel (name, type, address, phone, star, description, min_price, max_price, rooms)
-        values (#{name}, #{type}, #{address}, #{phone}, #{star}, #{description}, #{minPrice}, #{maxPrice},
+        insert into hotel (name, type, address, contact, star, description, min_price, max_price, rooms)
+        values (#{name}, #{type}, #{address}, #{contact}, #{star}, #{description}, #{minPrice}, #{maxPrice},
                 #{rooms})
     </insert>
 
@@ -13,7 +13,7 @@
                name,
                type,
                address,
-               phone,
+               contact,
                star,
                description,
                min_price,
@@ -29,7 +29,7 @@
                name,
                type,
                address,
-               phone,
+               contact,
                star,
                description,
                min_price,
@@ -47,7 +47,7 @@
                name,
                type,
                address,
-               phone,
+               contact,
                star,
                description,
                min_price,
@@ -65,7 +65,7 @@
         name,
         type,
         address,
-        phone,
+        contact,
         star,
         description,
         min_price,
@@ -94,8 +94,8 @@
             <if test="address != null">
                 address = #{address},
             </if>
-            <if test="phone != null">
-                phone = #{phone},
+            <if test="contact != null">
+                contact = #{contact},
             </if>
             <if test="email != null">
                 email = #{email},

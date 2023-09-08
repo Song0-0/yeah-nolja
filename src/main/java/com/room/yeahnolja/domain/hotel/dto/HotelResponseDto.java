@@ -11,7 +11,7 @@ public class HotelResponseDto {
     private String name;
     private String type;
     private String address;
-    private String phone;
+    private String contact;
     private String email;
     private int star;
     private String description;
@@ -27,7 +27,7 @@ public class HotelResponseDto {
         this.name = hotelDto.getName();
         this.type = hotelDto.getType();
         this.address = hotelDto.getAddress();
-        this.phone = hotelDto.getPhone();
+        this.contact = hotelDto.getContact();
         this.email = hotelDto.getEmail();
         this.star = hotelDto.getStar();
         this.description = hotelDto.getDescription();

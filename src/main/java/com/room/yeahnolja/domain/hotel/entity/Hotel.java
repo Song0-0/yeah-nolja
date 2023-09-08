@@ -28,7 +28,7 @@ public class Hotel {
     @NonNull
     private String address;
     @NonNull
-    private String phone;
+    private String contact;
     @NonNull
     private int star;
     @NonNull
