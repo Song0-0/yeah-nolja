@@ -33,11 +33,6 @@ public class Hotel {
     private int star;
     @NonNull
     private String description;
-    @NonNull
-    private int minPrice;
-    @NonNull
-    private int maxPrice;
-
 
     private String email;
     private int rooms;

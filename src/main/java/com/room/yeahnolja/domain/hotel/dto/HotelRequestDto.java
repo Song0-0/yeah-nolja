@@ -13,7 +13,5 @@ public class HotelRequestDto {
     private String email;
     private int star;
     private String description;
-    private int minPrice;
-    private int maxPrice;
     private int rooms;
 }

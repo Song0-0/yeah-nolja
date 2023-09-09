@@ -16,8 +16,6 @@ public class HotelResponseDto {
     private String email;
     private int star;
     private String description;
-    private int minPrice;
-    private int maxPrice;
     private int rooms;
 
     private String regDt;
@@ -32,8 +30,6 @@ public class HotelResponseDto {
         this.email = hotelDto.getEmail();
         this.star = hotelDto.getStar();
         this.description = hotelDto.getDescription();
-        this.minPrice = hotelDto.getMinPrice();
-        this.maxPrice = hotelDto.getMaxPrice();
         this.rooms = hotelDto.getRooms();
         this.regDt = String.valueOf(hotelDto.getRegDt());
         this.modDt = String.valueOf(hotelDto.getModDt());

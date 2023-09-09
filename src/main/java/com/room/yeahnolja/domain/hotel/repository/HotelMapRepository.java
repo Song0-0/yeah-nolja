@@ -24,8 +24,6 @@ public class HotelMapRepository implements HotelRepository {
                 .email("hilton@hiilton.com")
                 .star(5)
                 .description("힐튼 설명")
-                .minPrice(500000)
-                .maxPrice(1500000)
                 .rooms(250)
                 .regDt(LocalDateTime.of(2023, 9, 3, 10, 20, 30))
                 .modDt(LocalDateTime.of(2023, 9, 6, 10, 20, 30))
@@ -41,8 +39,6 @@ public class HotelMapRepository implements HotelRepository {
                 .email("incheonhotel@hotel.com")
                 .star(5)
                 .description("경원재 설명")
-                .minPrice(800000)
-                .maxPrice(2000000)
                 .rooms(300)
                 .regDt(LocalDateTime.of(2023, 9, 2, 10, 20, 30))
                 .modDt(LocalDateTime.of(2023, 9, 5, 10, 20, 30))
@@ -63,7 +59,7 @@ public class HotelMapRepository implements HotelRepository {
         return hotelEntity;
     }
 
-    public void delete(int id) {
+    public void deleteById(int id) {
         db.remove(id);
     }
 
@@ -77,17 +73,8 @@ public class HotelMapRepository implements HotelRepository {
         return Optional.ofNullable(hotel);
     }
 
-    public List<Hotel> findAllByPrice(int price) {
-        List<Hotel> hotels = new ArrayList<>();
-        for (Map.Entry<Integer, Hotel> entrySet : db.entrySet()) {
-            if (price >= entrySet.getValue().getMinPrice() && price <= entrySet.getValue().getMaxPrice()) {
-                hotels.add(entrySet.getValue());
-            }
-        }
-        return hotels;
-    }
 
-    public List<Hotel> findAllByName(String name) {
+    public List<Hotel> findAllByNameContaining(String name) {
         List<Hotel> hotels = new ArrayList<>();
         for (Map.Entry<Integer, Hotel> entrySet : db.entrySet()) {
             if (entrySet.getValue().getName().contains(name)) {
@@ -97,7 +84,7 @@ public class HotelMapRepository implements HotelRepository {
         return hotels;
     }
 
-    public List<Hotel> findAllByLocation(String address) {
+    public List<Hotel> findAllByAddressContaining(String address) {
         List<Hotel> hotels = new ArrayList<>();
         for (Map.Entry<Integer, Hotel> entrySet : db.entrySet()) {
             if (entrySet.getValue().getAddress().contains(address)) {

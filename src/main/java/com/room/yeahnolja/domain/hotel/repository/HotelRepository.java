@@ -8,10 +8,9 @@ import java.util.Optional;
 public interface HotelRepository {
     Hotel save(Hotel hotel);
     Hotel update(int id, Hotel hotel);
-    void delete(int id);
+    void deleteById(int id);
     List<Hotel> findAll();
     Optional<Hotel> findById(int id);
-    List<Hotel>  findAllByLocation(String address);
-    List<Hotel> findAllByPrice(int price);
-    List<Hotel> findAllByName(String name);
+    List<Hotel> findAllByAddressContaining(String address);
+    List<Hotel> findAllByNameContaining(String name);
 }

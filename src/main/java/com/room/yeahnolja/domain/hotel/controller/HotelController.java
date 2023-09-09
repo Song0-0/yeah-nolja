@@ -86,16 +86,6 @@ public class HotelController {
                 .body(hotelsByLocation);
     }
 
-    @Operation(summary = "특정 가격에 대한 호텔 조회")
-    @GetMapping("/price")
-    public ResponseEntity<List<HotelResponseDto>> getHotelsByPrice(@RequestParam int price) {
-        log.info("[컨트롤러] 검색용 가격 데이터 : {}", price);
-        List<HotelResponseDto> hotelsByPrice = hotelService.getHotelsByPrice(price);
-        log.info("[컨트롤러] 특정가격 조회 완료");
-        return ResponseEntity.ok()
-                .body(hotelsByPrice);
-    }
-
     @Operation(summary = "특정 호텔명에 대한 호텔 조회")
     @GetMapping("/name")
     public ResponseEntity<List<HotelResponseDto>> getHotelsByName(@RequestParam String name) {

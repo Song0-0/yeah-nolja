@@ -3,10 +3,11 @@ package com.room.yeahnolja.domain.hotel.service;
 import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
 import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
-import com.room.yeahnolja.domain.hotel.repository.HotelRepository;
+import com.room.yeahnolja.domain.hotel.repository.HotelJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
@@ -17,11 +18,12 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional //더티체킹을 위해 필요.
 public class HotelService {
 
     //    private final HotelMapper hotelMapper;
-//    private final HotelJpaRepository hotelJpaRepository;
-    private final HotelRepository hotelRepository;
+    private final HotelJpaRepository hotelJpaRepository;
+//    private final HotelRepository hotelRepository;
 
 
     public HotelResponseDto saveHotel(HotelRequestDto requestDto) {
@@ -34,11 +36,9 @@ public class HotelService {
         hotel.setEmail(requestDto.getEmail());
         hotel.setStar(requestDto.getStar());
         hotel.setDescription(requestDto.getDescription());
-        hotel.setMinPrice(requestDto.getMinPrice());
-        hotel.setMaxPrice(requestDto.getMaxPrice());
         hotel.setRooms(requestDto.getRooms());
 
-        Hotel hotelDto = hotelRepository.save(hotel);
+        Hotel hotelDto = hotelJpaRepository.save(hotel);
         log.info("[서비스] 생성 로직 끝");
         return new HotelResponseDto(hotelDto);
     }
@@ -61,7 +61,7 @@ public class HotelService {
 
     public HotelResponseDto modifyHotel(int hotelId, HotelRequestDto requestDto) {
         log.info("[서비스] 수정 실행");
-        Hotel hotel = hotelRepository.findById(hotelId)
+        Hotel hotel = hotelJpaRepository.findById(hotelId)
                 .orElseThrow(() -> new EntityNotFoundException("Hotel not found with id " + hotelId));
 
         modifyStringIfNotNull(requestDto.getName(), hotel::setName);
@@ -72,24 +72,22 @@ public class HotelService {
         modifyStringIfNotNull(requestDto.getDescription(), hotel::setDescription);
 
         modifyIntIfNotZero(requestDto.getStar(), hotel::setStar);
-        modifyIntIfNotZero(requestDto.getMinPrice(), hotel::setMinPrice);
-        modifyIntIfNotZero(requestDto.getMaxPrice(), hotel::setMaxPrice);
         modifyIntIfNotZero(requestDto.getRooms(), hotel::setRooms);
 
-        Hotel update = hotelRepository.update(hotelId, hotel);
+//        Hotel update = hotelJpaRepository.update(hotelId, hotel); //JpaRepository를 상속받은 Repository로 할 때는 더티체킹이 되어서 사용할 필요가 없다.
         log.info("[서비스] 수정 종료");
-        return new HotelResponseDto(update);
+        return new HotelResponseDto(hotel);
     }
 
     public void removeHotel(int hotelId) {
         log.info("[서비스] 삭제 실행");
-        hotelRepository.delete(hotelId);
+        hotelJpaRepository.deleteById(hotelId);
         log.info("[서비스] 삭제 종료");
     }
 
     public List<HotelResponseDto> getAllHotels() {
         log.info("[서비스] 전체조회 실행");
-        List<Hotel> allHotels = hotelRepository.findAll();
+        List<Hotel> allHotels = hotelJpaRepository.findAll();
         List<HotelResponseDto> allHotelResponseDto = allHotels.stream()
                 .map(hotel -> new HotelResponseDto(hotel))
                 .collect(Collectors.toList());
@@ -99,7 +97,7 @@ public class HotelService {
 
     public HotelResponseDto getHotel(int hotelId) {
         log.info("[서비스] 단건조회 실행");
-        Hotel hotel = hotelRepository.findById(hotelId)
+        Hotel hotel = hotelJpaRepository.findById(hotelId)
                 .orElseThrow(() -> new EntityNotFoundException("Hotel not found with id " + hotelId));
         log.info("[서비스] 단건조회 종료");
         return new HotelResponseDto(hotel);
@@ -107,26 +105,16 @@ public class HotelService {
 
     public List<HotelResponseDto> getHotelsByLocation(String location) {
         log.info("[서비스] 지역명으로 조회 실행");
-        List<Hotel> allByLocation = hotelRepository.findAllByLocation(location);
+        List<Hotel> allByLocation = hotelJpaRepository.findAllByAddressContaining(location);
         log.info("[서비스] 지역명으로 조회 종료");
         return allByLocation.stream()
                 .map(HotelResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-
-    public List<HotelResponseDto> getHotelsByPrice(int price) {
-        log.info("[서비스] 가격으로 조회 실행");
-        List<Hotel> allByPrice = hotelRepository.findAllByPrice(price);
-        log.info("[서비스] 가격으로 조회 종료");
-        return allByPrice.stream()
-                .map(HotelResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     public List<HotelResponseDto> getHotelsByName(String name) {
         log.info("[서비스] 호텔명으로 조회 실행");
-        List<Hotel> allByName = hotelRepository.findAllByName(name);
+        List<Hotel> allByName = hotelJpaRepository.findAllByNameContaining(name);
         log.info("[서비스] 호텔명으로 조회 종료");
         return allByName.stream()
                 .map(hotel -> new HotelResponseDto(hotel))

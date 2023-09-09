@@ -10,12 +10,9 @@ public interface HotelMapper extends HotelRepository {
 //
 //    HotelResponseDto findAllById(int hotelId);
 //
-//    List<HotelResponseDto> findAllByLocation(String location);
-//
-//    List<HotelResponseDto> findAllByPrice(int price);
+//    List<HotelResponseDto> findAllByAddress(String location);
 //
 //    HotelResponseDto update(HotelRequestDto requestDto);
 //
 //    void delete(int hotelId);
-
 }

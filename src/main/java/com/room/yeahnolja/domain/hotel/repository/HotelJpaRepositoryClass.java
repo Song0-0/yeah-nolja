@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+//@Repository
 public class HotelJpaRepositoryClass implements HotelRepository {
     private final EntityManager em;
     private static final Logger log = LoggerFactory.getLogger(HotelJpaRepositoryClass.class);
@@ -41,7 +41,7 @@ public class HotelJpaRepositoryClass implements HotelRepository {
 
     @Override
     @Transactional
-    public void delete(int id) {
+    public void deleteById(int id) {
         log.info("[레파지토리] 삭제 시작");
         Hotel hotel = em.find(Hotel.class, id);
         if (hotel != null) {
@@ -66,7 +66,7 @@ public class HotelJpaRepositoryClass implements HotelRepository {
     }
 
     @Override
-    public List<Hotel> findAllByLocation(String address) {
+    public List<Hotel> findAllByAddressContaining(String address) {
         log.info("[레파지토리] 특정 지역으로 조회 시작");
         List<Hotel> result = em.createQuery("select h from Hotel h where h.address like :address", Hotel.class)
                 .setParameter("address", "%" + address + "%")
@@ -76,17 +76,7 @@ public class HotelJpaRepositoryClass implements HotelRepository {
     }
 
     @Override
-    public List<Hotel> findAllByPrice(int price) {
-        log.info("[레파지토리] 특정 가격으로 조회 시작");
-        List<Hotel> result = em.createQuery("select h from Hotel " + "h where h.minPrice <= :price and h.maxPrice >= :price")
-                .setParameter("price", price)
-                .getResultList();
-        log.info("[레파지토리] 특정 가격으로 조회 끝");
-        return result;
-    }
-
-    @Override
-    public List<Hotel> findAllByName(String name) {
+    public List<Hotel> findAllByNameContaining(String name) {
         log.info("[레파지토리] 특정명으로 조회 시작");
         List<Hotel> result = em.createQuery("select h from Hotel " + "h where h.name like :name", Hotel.class)
                 .setParameter("name", "%" + name + "%")

@@ -41,7 +41,7 @@
         where id = #{hotelId}
     </select>
 
-    <select id="findAllByLocation" parameterType="String"
+    <select id="findAllByAddress" parameterType="String"
             resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
         select id,
                name,
@@ -57,29 +57,6 @@
                mod_dt
         from hotel
         where address like concat('%', #{location}, '%')
-    </select>
-
-    <select id="findAllByPrice" parameterType="int"
-            resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
-        select id,
-        name,
-        type,
-        address,
-        contact,
-        star,
-        description,
-        min_price,
-        max_price,
-        rooms,
-        reg_dt,
-        mod_dt
-        from hotel
-        <where>
-            <if test="price != null">
-                and min_price &lt;= #{price}
-                and max_price &gt;= #{price}
-            </if>
-        </where>
     </select>
 
     <update id="update" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelRequestDto">
@@ -119,7 +96,7 @@
         where id = #{id}
     </update>
 
-    <delete id="delete" parameterType="int">
+    <delete id="deleteById" parameterType="int">
         delete
         from hotel
         where id = #{hotelId}
