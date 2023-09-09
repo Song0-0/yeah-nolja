@@ -21,17 +21,17 @@ public class HotelResponseDto {
     private String regDt;
     private String modDt;
 
-    public HotelResponseDto(Hotel hotelDto) {
-        this.id = hotelDto.getId();
-        this.name = hotelDto.getName();
-        this.type = hotelDto.getType();
-        this.address = hotelDto.getAddress();
-        this.contact = hotelDto.getContact();
-        this.email = hotelDto.getEmail();
-        this.star = hotelDto.getStar();
-        this.description = hotelDto.getDescription();
-        this.rooms = hotelDto.getRooms();
-        this.regDt = String.valueOf(hotelDto.getRegDt());
-        this.modDt = String.valueOf(hotelDto.getModDt());
+    public HotelResponseDto(Hotel hotel) {
+        this.id = hotel.getId();
+        this.name = hotel.getName();
+        this.type = hotel.getType();
+        this.address = hotel.getAddress();
+        this.contact = hotel.getContact();
+        this.email = hotel.getEmail();
+        this.star = hotel.getStar();
+        this.description = hotel.getDescription();
+        this.rooms = hotel.getRooms();
+        this.regDt = String.valueOf(hotel.getRegDt());
+        this.modDt = String.valueOf(hotel.getModDt());
     }
 }
