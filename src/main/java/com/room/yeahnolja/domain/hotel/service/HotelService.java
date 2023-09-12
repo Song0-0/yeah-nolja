@@ -1,5 +1,6 @@
 package com.room.yeahnolja.domain.hotel.service;
 
+import com.room.yeahnolja.config.exception.ResourceNotFoundException;
 import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
 import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -62,7 +62,7 @@ public class HotelService {
     public HotelResponseDto modifyHotel(int hotelId, HotelRequestDto requestDto) {
         log.info("[서비스] 수정 실행");
         Hotel hotel = hotelJpaRepository.findById(hotelId)
-                .orElseThrow(() -> new EntityNotFoundException("Hotel not found with id " + hotelId));
+                .orElseThrow(() -> new ResourceNotFoundException("Hotel with ID " + hotelId + " not found"));
 
         modifyStringIfNotNull(requestDto.getName(), hotel::setName);
         modifyStringIfNotNull(requestDto.getType(), hotel::setType);
@@ -98,7 +98,7 @@ public class HotelService {
     public HotelResponseDto getHotel(int hotelId) {
         log.info("[서비스] 단건조회 실행");
         Hotel hotel = hotelJpaRepository.findById(hotelId)
-                .orElseThrow(() -> new EntityNotFoundException("Hotel not found with id " + hotelId));
+                .orElseThrow(() -> new ResourceNotFoundException("Hotel with ID " + hotelId + " not found"));
         log.info("[서비스] 단건조회 종료");
         return new HotelResponseDto(hotel);
     }
@@ -106,7 +106,14 @@ public class HotelService {
     public List<HotelResponseDto> getHotelsByLocation(String location) {
         log.info("[서비스] 지역명으로 조회 실행");
         List<Hotel> allByLocation = hotelJpaRepository.findAllByAddressContaining(location);
-        log.info("[서비스] 지역명으로 조회 종료");
+
+        if (allByLocation.isEmpty()) {
+            log.info("[서비스] 지역명으로 조회 결과 : 0건");
+            throw new ResourceNotFoundException("Hotel with " + location + " not found");
+        } else {
+            log.info("[서비스] 지역명으로 조회 결과 : {}건", allByLocation.size() + "건");
+            log.info("[서비스] 지역명으로 조회 종료");
+        }
         return allByLocation.stream()
                 .map(HotelResponseDto::new)
                 .collect(Collectors.toList());
@@ -115,7 +122,14 @@ public class HotelService {
     public List<HotelResponseDto> getHotelsByName(String name) {
         log.info("[서비스] 호텔명으로 조회 실행");
         List<Hotel> allByName = hotelJpaRepository.findAllByNameContaining(name);
-        log.info("[서비스] 호텔명으로 조회 종료");
+
+        if (allByName.isEmpty()) {
+            log.info("[서비스] 지역명으로 조회 결과 : 0건");
+            throw new ResourceNotFoundException("Hotel with " + name + " not found");
+        } else {
+            log.info("[서비스] 지역명으로 조회 결과 : {}건", allByName.size() + "건");
+            log.info("[서비스] 호텔명으로 조회 종료");
+        }
         return allByName.stream()
                 .map(hotel -> new HotelResponseDto(hotel))
                 .collect(Collectors.toList());
