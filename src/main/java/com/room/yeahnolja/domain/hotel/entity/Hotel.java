@@ -22,7 +22,6 @@ public class Hotel {
     @NonNull
     @Column(unique = true)
     private String name;
-
     @NonNull
     private String type;
     @NonNull
@@ -33,13 +32,10 @@ public class Hotel {
     private int star;
     @NonNull
     private String description;
-
     private String email;
     private int rooms;
-
     @CreationTimestamp
     private LocalDateTime regDt;
-
     @UpdateTimestamp
     private LocalDateTime modDt;
 }

@@ -38,9 +38,9 @@ public class HotelService {
         hotel.setDescription(requestDto.getDescription());
         hotel.setRooms(requestDto.getRooms());
 
-        Hotel hotelDto = hotelJpaRepository.save(hotel);
+        Hotel hotelEntity = hotelJpaRepository.save(hotel);
         log.info("[서비스] 생성 로직 끝");
-        return new HotelResponseDto(hotelDto);
+        return new HotelResponseDto(hotelEntity);
     }
 
     private void modifyStringIfNotNull(String value, Consumer<String> modifier) {
@@ -85,6 +85,7 @@ public class HotelService {
         log.info("[서비스] 삭제 종료");
     }
 
+    @Transactional(readOnly = true)
     public List<HotelResponseDto> getAllHotels() {
         log.info("[서비스] 전체조회 실행");
         List<Hotel> allHotels = hotelJpaRepository.findAll();
@@ -95,6 +96,7 @@ public class HotelService {
         return allHotelResponseDto;
     }
 
+    @Transactional(readOnly = true)
     public HotelResponseDto getHotel(int hotelId) {
         log.info("[서비스] 단건조회 실행");
         Hotel hotel = hotelJpaRepository.findById(hotelId)
@@ -103,6 +105,7 @@ public class HotelService {
         return new HotelResponseDto(hotel);
     }
 
+    @Transactional(readOnly = true)
     public List<HotelResponseDto> getHotelsByLocation(String location) {
         log.info("[서비스] 지역명으로 조회 실행");
         List<Hotel> allByLocation = hotelJpaRepository.findAllByAddressContaining(location);
@@ -119,6 +122,7 @@ public class HotelService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<HotelResponseDto> getHotelsByName(String name) {
         log.info("[서비스] 호텔명으로 조회 실행");
         List<Hotel> allByName = hotelJpaRepository.findAllByNameContaining(name);
