@@ -77,7 +77,7 @@ public class HotelTest {
         //When 전체 호텔 조회
         List<Hotel> hotels = hotelJpaRepository.findAll();
         //Then 조회된 호텔 수 검증
-        assertEquals(30, hotels.size());
+        assertEquals(37, hotels.size());
     }
 
     @Test

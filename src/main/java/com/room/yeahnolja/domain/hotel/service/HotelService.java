@@ -1,8 +1,9 @@
 package com.room.yeahnolja.domain.hotel.service;
 
 import com.room.yeahnolja.config.exception.ResourceNotFoundException;
-import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
+import com.room.yeahnolja.domain.hotel.dto.HotelCreateRequestDto;
 import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
+import com.room.yeahnolja.domain.hotel.dto.HotelUpdateRequestDto;
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
 import com.room.yeahnolja.domain.hotel.repository.HotelJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,17 +27,17 @@ public class HotelService {
 //    private final HotelRepository hotelRepository;
 
 
-    public HotelResponseDto saveHotel(HotelRequestDto requestDto) {
+    public HotelResponseDto saveHotel(HotelCreateRequestDto createRequestDto) {
         log.info("[서비스] 생성 로직 시작");
         Hotel hotel = new Hotel();
-        hotel.setName(requestDto.getName());
-        hotel.setType(requestDto.getType());
-        hotel.setAddress(requestDto.getAddress());
-        hotel.setContact(requestDto.getContact());
-        hotel.setEmail(requestDto.getEmail());
-        hotel.setStar(requestDto.getStar());
-        hotel.setDescription(requestDto.getDescription());
-        hotel.setRooms(requestDto.getRooms());
+        hotel.setName(createRequestDto.getName());
+        hotel.setType(createRequestDto.getType());
+        hotel.setAddress(createRequestDto.getAddress());
+        hotel.setContact(createRequestDto.getContact());
+        hotel.setEmail(createRequestDto.getEmail());
+        hotel.setStar(createRequestDto.getStar());
+        hotel.setDescription(createRequestDto.getDescription());
+        hotel.setRooms(createRequestDto.getRooms());
 
         Hotel hotelEntity = hotelJpaRepository.save(hotel);
         log.info("[서비스] 생성 로직 끝");
@@ -59,20 +60,20 @@ public class HotelService {
         log.info("[서비스] 수정 modifyIntIfNotZero 종료");
     }
 
-    public HotelResponseDto modifyHotel(int hotelId, HotelRequestDto requestDto) {
+    public HotelResponseDto modifyHotel(int hotelId, HotelUpdateRequestDto updateRequestDto) {
         log.info("[서비스] 수정 실행");
         Hotel hotel = hotelJpaRepository.findById(hotelId)
                 .orElseThrow(() -> new ResourceNotFoundException("Hotel with ID " + hotelId + " not found"));
 
-        modifyStringIfNotNull(requestDto.getName(), hotel::setName);
-        modifyStringIfNotNull(requestDto.getType(), hotel::setType);
-        modifyStringIfNotNull(requestDto.getAddress(), hotel::setAddress);
-        modifyStringIfNotNull(requestDto.getContact(), hotel::setContact);
-        modifyStringIfNotNull(requestDto.getEmail(), hotel::setEmail);
-        modifyStringIfNotNull(requestDto.getDescription(), hotel::setDescription);
+        modifyStringIfNotNull(updateRequestDto.getName(), hotel::setName);
+        modifyStringIfNotNull(updateRequestDto.getType(), hotel::setType);
+        modifyStringIfNotNull(updateRequestDto.getAddress(), hotel::setAddress);
+        modifyStringIfNotNull(updateRequestDto.getContact(), hotel::setContact);
+        modifyStringIfNotNull(updateRequestDto.getEmail(), hotel::setEmail);
+        modifyStringIfNotNull(updateRequestDto.getDescription(), hotel::setDescription);
 
-        modifyIntIfNotZero(requestDto.getStar(), hotel::setStar);
-        modifyIntIfNotZero(requestDto.getRooms(), hotel::setRooms);
+        modifyIntIfNotZero(updateRequestDto.getStar(), hotel::setStar);
+        modifyIntIfNotZero(updateRequestDto.getRooms(), hotel::setRooms);
 
 //        Hotel update = hotelJpaRepository.update(hotelId, hotel); //JpaRepository를 상속받은 Repository로 할 때는 더티체킹이 되어서 사용할 필요가 없다.
         log.info("[서비스] 수정 종료");

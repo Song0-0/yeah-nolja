@@ -1,11 +1,9 @@
 package com.room.yeahnolja.domain.hotel.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-public class HotelRequestDto {
-
+public class HotelUpdateRequestDto {
     private String name;
     private String type;
     private String address;

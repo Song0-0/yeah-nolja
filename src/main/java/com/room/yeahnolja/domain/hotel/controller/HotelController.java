@@ -1,7 +1,8 @@
 package com.room.yeahnolja.domain.hotel.controller;
 
-import com.room.yeahnolja.domain.hotel.dto.HotelRequestDto;
+import com.room.yeahnolja.domain.hotel.dto.HotelCreateRequestDto;
 import com.room.yeahnolja.domain.hotel.dto.HotelResponseDto;
+import com.room.yeahnolja.domain.hotel.dto.HotelUpdateRequestDto;
 import com.room.yeahnolja.domain.hotel.service.HotelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -24,22 +26,21 @@ public class HotelController {
 
     @Operation(summary = "호텔 단건 등록")
     @PostMapping("/save")
-    public ResponseEntity<Void> saveHotel(@RequestBody HotelRequestDto requestDto) {
-        log.info("[컨트롤러] 등록 시, 호텔명 : {}", requestDto.getName());
-        HotelResponseDto hotelResponseDto = hotelService.saveHotel(requestDto);
+    public ResponseEntity<Void> saveHotel(@RequestBody @Valid HotelCreateRequestDto createRequestDto) {
+        log.info("[컨트롤러] 등록 시, 호텔명 : {}", createRequestDto.getName());
+        HotelResponseDto hotelResponseDto = hotelService.saveHotel(createRequestDto);
         int id = hotelResponseDto.getId();
         URI location = URI.create("/hotels/" + id);
         log.info("[컨트롤러] 등록 후, 호텔명 : {}", hotelResponseDto.getName());
         return ResponseEntity.created(location)
                 .build();
-
     }
 
     @Operation(summary = "호텔 단건 수정")
     @PatchMapping("/{hotelId}")
-    public ResponseEntity<Void> modifyHotel(@PathVariable int hotelId, @RequestBody HotelRequestDto requestDto) {
+    public ResponseEntity<Void> modifyHotel(@PathVariable int hotelId, @RequestBody HotelUpdateRequestDto updateRequestDto) {
         log.info("[컨트롤러] 수정 시 받은 ID : {}", hotelId);
-        hotelService.modifyHotel(hotelId, requestDto);
+        hotelService.modifyHotel(hotelId, updateRequestDto);
         log.info("[컨트롤러] 수정 완료");
         return ResponseEntity.ok()
                 .build();

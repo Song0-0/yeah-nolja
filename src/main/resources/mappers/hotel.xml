@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.room.yeahnolja.domain.hotel.mapper.HotelMapper">
 
-    <insert id="save" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelRequestDto">
+    <insert id="save" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelCreateRequestDto">
         insert into hotel (name, type, address, contact, star, description, min_price, max_price, rooms)
         values (#{name}, #{type}, #{address}, #{contact}, #{star}, #{description}, #{minPrice}, #{maxPrice},
                 #{rooms})
@@ -59,7 +59,7 @@
         where address like concat('%', #{location}, '%')
     </select>
 
-    <update id="update" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelRequestDto">
+    <update id="update" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelCreateRequestDto">
         update hotel
         <trim prefix="set" suffixOverrides=",">
             <if test="name != null">
