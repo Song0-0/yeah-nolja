@@ -38,4 +38,5 @@ public class Hotel {
     private LocalDateTime regDt;
     @UpdateTimestamp
     private LocalDateTime modDt;
+    private String delYn;
 }

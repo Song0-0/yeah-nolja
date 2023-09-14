@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -62,7 +63,7 @@ public class HotelService {
 
     public HotelResponseDto modifyHotel(int hotelId, HotelUpdateRequestDto updateRequestDto) {
         log.info("[서비스] 수정 실행");
-        Hotel hotel = hotelJpaRepository.findById(hotelId)
+        Hotel hotel = hotelJpaRepository.findByIdAndDelYn(hotelId,"N")
                 .orElseThrow(() -> new ResourceNotFoundException("Hotel with ID " + hotelId + " not found"));
 
         modifyStringIfNotNull(updateRequestDto.getName(), hotel::setName);
@@ -82,14 +83,21 @@ public class HotelService {
 
     public void removeHotel(int hotelId) {
         log.info("[서비스] 삭제 실행");
-        hotelJpaRepository.deleteById(hotelId);
+        Optional<Hotel> optionalHotel = hotelJpaRepository.findById(hotelId);
+        optionalHotel.ifPresent(new Consumer<Hotel>() {
+            @Override
+            public void accept(Hotel hotel) {
+                hotel.setDelYn("Y");
+                hotelJpaRepository.save(hotel);
+            }
+        });
         log.info("[서비스] 삭제 종료");
     }
 
     @Transactional(readOnly = true)
     public List<HotelResponseDto> getAllHotels() {
         log.info("[서비스] 전체조회 실행");
-        List<Hotel> allHotels = hotelJpaRepository.findAll();
+        List<Hotel> allHotels = hotelJpaRepository.findByDelYn("N");
         List<HotelResponseDto> allHotelResponseDto = allHotels.stream()
                 .map(hotel -> new HotelResponseDto(hotel))
                 .collect(Collectors.toList());
@@ -100,7 +108,7 @@ public class HotelService {
     @Transactional(readOnly = true)
     public HotelResponseDto getHotel(int hotelId) {
         log.info("[서비스] 단건조회 실행");
-        Hotel hotel = hotelJpaRepository.findById(hotelId)
+        Hotel hotel = hotelJpaRepository.findByIdAndDelYn(hotelId, "N")
                 .orElseThrow(() -> new ResourceNotFoundException("Hotel with ID " + hotelId + " not found"));
         log.info("[서비스] 단건조회 종료");
         return new HotelResponseDto(hotel);
@@ -109,7 +117,7 @@ public class HotelService {
     @Transactional(readOnly = true)
     public List<HotelResponseDto> getHotelsByLocation(String location) {
         log.info("[서비스] 지역명으로 조회 실행");
-        List<Hotel> allByLocation = hotelJpaRepository.findAllByAddressContaining(location);
+        List<Hotel> allByLocation = hotelJpaRepository.findAllByAddressContainingAndDelYn(location, "N");
 
         if (allByLocation.isEmpty()) {
             log.info("[서비스] 지역명으로 조회 결과 : 0건");
@@ -126,13 +134,13 @@ public class HotelService {
     @Transactional(readOnly = true)
     public List<HotelResponseDto> getHotelsByName(String name) {
         log.info("[서비스] 호텔명으로 조회 실행");
-        List<Hotel> allByName = hotelJpaRepository.findAllByNameContaining(name);
+        List<Hotel> allByName = hotelJpaRepository.findAllByNameContainingAndDelYn(name,"N");
 
         if (allByName.isEmpty()) {
-            log.info("[서비스] 지역명으로 조회 결과 : 0건");
+            log.info("[서비스] 호텔명으로 조회 결과 : 0건");
             throw new ResourceNotFoundException("Hotel with " + name + " not found");
         } else {
-            log.info("[서비스] 지역명으로 조회 결과 : {}건", allByName.size() + "건");
+            log.info("[서비스] 호텔명으로 조회 결과 : {}건", allByName.size() + "건");
             log.info("[서비스] 호텔명으로 조회 종료");
         }
         return allByName.stream()
