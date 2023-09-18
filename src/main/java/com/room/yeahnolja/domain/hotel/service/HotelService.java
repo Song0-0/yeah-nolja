@@ -22,12 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional //더티체킹을 위해 필요.
 public class HotelService {
-
-    //    private final HotelMapper hotelMapper;
     private final HotelJpaRepository hotelJpaRepository;
-//    private final HotelRepository hotelRepository;
-
-
     public HotelResponseDto saveHotel(HotelCreateRequestDto createRequestDto) {
         log.info("[서비스] 생성 로직 시작");
         Hotel hotel = new Hotel();

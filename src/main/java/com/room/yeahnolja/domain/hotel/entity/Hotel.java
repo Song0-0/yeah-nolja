@@ -1,10 +1,8 @@
 package com.room.yeahnolja.domain.hotel.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -13,9 +11,11 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "hotel")
 @Getter
 @Setter
+@DynamicInsert
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,4 @@ public class Hotel {
     private LocalDateTime modDt;
     private String delYn;
 
-    public Hotel() {
-        this.delYn = "N";
-    }
 }
