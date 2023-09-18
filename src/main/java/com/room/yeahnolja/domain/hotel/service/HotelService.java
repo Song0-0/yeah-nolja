@@ -63,7 +63,7 @@ public class HotelService {
 
     public HotelResponseDto modifyHotel(int hotelId, HotelUpdateRequestDto updateRequestDto) {
         log.info("[서비스] 수정 실행");
-        Hotel hotel = hotelJpaRepository.findByIdAndDelYn(hotelId,"N")
+        Hotel hotel = hotelJpaRepository.findByIdAndDelYn(hotelId, "N")
                 .orElseThrow(() -> new ResourceNotFoundException("Hotel with ID " + hotelId + " not found"));
 
         modifyStringIfNotNull(updateRequestDto.getName(), hotel::setName);
@@ -83,14 +83,10 @@ public class HotelService {
 
     public void removeHotel(int hotelId) {
         log.info("[서비스] 삭제 실행");
-        Optional<Hotel> optionalHotel = hotelJpaRepository.findById(hotelId);
-        optionalHotel.ifPresent(new Consumer<Hotel>() {
-            @Override
-            public void accept(Hotel hotel) {
-                hotel.setDelYn("Y");
-                hotelJpaRepository.save(hotel);
-            }
-        });
+        Optional<Hotel> optionalHotel = hotelJpaRepository.findByIdAndDelYn(hotelId, "N");
+        Hotel hotel = optionalHotel.orElseThrow(() -> new ResourceNotFoundException("Hotel with ID " + hotelId + " is already deleted or not found"));
+        hotel.setDelYn("Y");
+        hotelJpaRepository.save(hotel);
         log.info("[서비스] 삭제 종료");
     }
 
@@ -134,7 +130,7 @@ public class HotelService {
     @Transactional(readOnly = true)
     public List<HotelResponseDto> getHotelsByName(String name) {
         log.info("[서비스] 호텔명으로 조회 실행");
-        List<Hotel> allByName = hotelJpaRepository.findAllByNameContainingAndDelYn(name,"N");
+        List<Hotel> allByName = hotelJpaRepository.findAllByNameContainingAndDelYn(name, "N");
 
         if (allByName.isEmpty()) {
             log.info("[서비스] 호텔명으로 조회 결과 : 0건");

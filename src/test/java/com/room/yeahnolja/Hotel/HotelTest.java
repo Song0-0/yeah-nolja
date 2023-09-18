@@ -2,20 +2,29 @@ package com.room.yeahnolja.Hotel;
 
 import com.room.yeahnolja.domain.hotel.entity.Hotel;
 import com.room.yeahnolja.domain.hotel.repository.HotelJpaRepository;
+import com.room.yeahnolja.domain.hotel.service.HotelService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional
+@Slf4j
 public class HotelTest {
     @Autowired
     private HotelJpaRepository hotelJpaRepository;
+    @Autowired
+    private HotelService hotelService;
+
 
     private Hotel createSampleHotel() {
         Hotel hotel = new Hotel();
@@ -41,17 +50,26 @@ public class HotelTest {
     }
 
     @Test
+    @Commit
     public void 호텔수정() {
         // Given 초기 호텔 정보 생성 및 저장
         Hotel hotel = createSampleHotel();
         hotelJpaRepository.save(hotel);
+
         //When 호텔 정보 수정
         int updateRooms = 400;
         String updateDescription = "업데이트된 설명";
+
         hotel.setRooms(updateRooms);
         hotel.setDescription(updateDescription);
+
+
+        log.info("Hotel Id:" + hotel.getId());
+
         //Then 수정된 정보 검증
-        Hotel updatedHotel = hotelJpaRepository.findById(hotel.getId()).get();
+        Hotel updatedHotel = hotelJpaRepository.findByIdAndDelYn(hotel.getId(), "N")
+                .orElseThrow(() -> new RuntimeException("Hotel not found!"));
+        log.info(hotel.getDescription());
         assertEquals(updateRooms, updatedHotel.getRooms());
         assertEquals(updateDescription, updatedHotel.getDescription());
     }
@@ -62,9 +80,11 @@ public class HotelTest {
         Hotel hotel = createSampleHotel();
         hotelJpaRepository.save(hotel);
         //When 호텔 삭제
-        hotelJpaRepository.deleteById(hotel.getId());
+        hotelService.removeHotel(hotel.getId());
         //Then 삭제 검증
-        assertFalse(hotelJpaRepository.existsById(hotel.getId()));
+        Optional<Hotel> deletedHotel = hotelJpaRepository.findById(hotel.getId());
+        assertTrue(deletedHotel.isPresent()); //해당호텔은 여전히 존재해야함
+        assertEquals("Y", deletedHotel.get().getDelYn()); //delYn은 "Y"로 설정되어야함.
     }
 
     @Test
@@ -75,9 +95,9 @@ public class HotelTest {
         hotelJpaRepository.save(hotel1);
         hotelJpaRepository.save(hotel2);
         //When 전체 호텔 조회
-        List<Hotel> hotels = hotelJpaRepository.findAll();
+        List<Hotel> hotels = hotelJpaRepository.findByDelYn("N");
         //Then 조회된 호텔 수 검증
-        assertEquals(37, hotels.size());
+        assertEquals(40, hotels.size());
     }
 
     @Test
@@ -86,7 +106,7 @@ public class HotelTest {
         Hotel hotel = createSampleHotel();
         hotelJpaRepository.save(hotel);
         //When 단건조회
-        Hotel foundHotel = hotelJpaRepository.findById(hotel.getId()).get();
+        Hotel foundHotel = hotelJpaRepository.findByIdAndDelYn(hotel.getId(), "N").get();
         //Then 조회된 호텔 정보 검증
         assertEquals(hotel.getId(), foundHotel.getId());
     }
@@ -98,7 +118,7 @@ public class HotelTest {
         hotel.setName("쉐라톤");
         hotelJpaRepository.save(hotel);
         //When 호텔명으로 조회
-        List<Hotel> foundHotels = hotelJpaRepository.findAllByNameContaining("쉐라톤");
+        List<Hotel> foundHotels = hotelJpaRepository.findAllByNameContainingAndDelYn("쉐라톤", "N");
         //Then 조회된 호텔 정보 검증
         assertTrue(foundHotels.stream().anyMatch(h -> h.getName().equals(hotel.getName())));
         long count = foundHotels.stream().filter(h -> h.getName().equals(hotel.getName())).count();
@@ -112,7 +132,7 @@ public class HotelTest {
         hotel.setAddress("경주");
         hotelJpaRepository.save(hotel);
         //When 호텔지역명으로 조회
-        List<Hotel> foundHotels = hotelJpaRepository.findAllByAddressContaining("경주");
+        List<Hotel> foundHotels = hotelJpaRepository.findAllByAddressContainingAndDelYn("경주", "N");
         //Then 조회된 호텔 정보 검증
         assertTrue(foundHotels.stream().anyMatch(h -> h.getAddress().equals(hotel.getAddress())));
         long count = foundHotels.stream().filter(h -> h.getAddress().equals(hotel.getAddress())).count();

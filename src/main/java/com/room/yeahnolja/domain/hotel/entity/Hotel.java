@@ -1,6 +1,9 @@
 package com.room.yeahnolja.domain.hotel.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,7 +12,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "hotel")
 @Getter
@@ -19,18 +21,17 @@ public class Hotel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NonNull
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
-    @NonNull
+    @Column(nullable = false)
     private String type;
-    @NonNull
+    @Column(nullable = false)
     private String address;
-    @NonNull
+    @Column(nullable = false)
     private String contact;
-    @NonNull
+    @Column(nullable = false)
     private int star;
-    @NonNull
+    @Column(nullable = false)
     private String description;
     private String email;
     private int rooms;
@@ -39,4 +40,8 @@ public class Hotel {
     @UpdateTimestamp
     private LocalDateTime modDt;
     private String delYn;
+
+    public Hotel() {
+        this.delYn = "N";
+    }
 }

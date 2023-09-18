@@ -6,3 +6,5 @@ values ('조선팰리스','관광호텔업','서울특별시 종로구 새문안
 desc hotel;
 
 select * from hotel;
+
+select * from hotel where del_yn = 'N';
