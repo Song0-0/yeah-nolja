@@ -23,9 +23,6 @@ public class Room {
     private List<Reservation> reservations = new ArrayList<>();
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
     private String type;
 
     @Column(nullable = false)

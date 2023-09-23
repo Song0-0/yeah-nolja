@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,10 +29,10 @@ public class Reservation {
     private LocalDateTime reservationDate;
 
     @Column(nullable = false)
-    private String checkIn;
+    private LocalDate checkIn;
 
     @Column(nullable = false)
-    private String checkOut;
+    private LocalDate checkOut;
 
     @Column(nullable = false)
     private String notice;
