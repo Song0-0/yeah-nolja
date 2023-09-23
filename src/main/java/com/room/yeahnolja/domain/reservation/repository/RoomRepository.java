@@ -13,8 +13,9 @@ import java.util.List;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("SELECT new com.room.yeahnolja.domain.reservation.dto.RoomResponseDto("
-            + "r.id, "
+            + "r.hotel.id, "
             + "r.hotel.name, "
+            + "r.id, "
             + "r.type, "
             + "r.people, "
             + "r.price, "
