@@ -12,8 +12,6 @@ import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    List<Room> findAllByPriceLessThanEqual(int price);
-
     @Query("SELECT new com.room.yeahnolja.domain.reservation.dto.RoomResponseDto("
             + "r.id, "
             + "r.hotel.name, "

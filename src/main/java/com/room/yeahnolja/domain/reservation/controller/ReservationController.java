@@ -20,14 +20,6 @@ public class ReservationController {
 
     private final RoomService roomService;
 
-    @Operation(summary = "특정 금액에 따른 객실 조회")
-    @GetMapping("/reservation/price")
-    public ResponseEntity<List<RoomResponseDto>> getRoomsByPrice(@RequestParam int price) {
-        List<RoomResponseDto> rooms = roomService.getRoomsByPrice(price);
-        return ResponseEntity.ok()
-                .body(rooms);
-    }
-
     @Operation(summary = "특정 호텔에 대한 예약 가능한 객실 조회")
     @GetMapping("/reservation/rooms/{hotelId}")
     public ResponseEntity<List<RoomResponseDto>> getAvailableRooms(

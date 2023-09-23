@@ -16,13 +16,6 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
 
-    public List<RoomResponseDto> getRoomsByPrice(int price) {
-        List<Room> rooms = roomRepository.findAllByPriceLessThanEqual(price);
-        return rooms.stream()
-                .map(RoomResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     public List<RoomResponseDto> getAvailableRooms(int hotelId, LocalDate checkin, LocalDate checkout, Integer price, String location) {
         List<RoomResponseDto> rooms = roomRepository.findAvailableRooms(hotelId, checkin, checkout, price, location);
         return rooms;
