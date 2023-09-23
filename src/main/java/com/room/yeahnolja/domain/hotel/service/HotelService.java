@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @Transactional //더티체킹을 위해 필요.
 public class HotelService {
     private final HotelJpaRepository hotelJpaRepository;
+
     public HotelResponseDto saveHotel(HotelCreateRequestDto createRequestDto) {
         log.info("[서비스] 생성 로직 시작");
         Hotel hotel = new Hotel();
@@ -86,14 +88,37 @@ public class HotelService {
     }
 
     @Transactional(readOnly = true)
-    public List<HotelResponseDto> getAllHotels() {
+    public List<HotelResponseDto> getAllHotels(LocalDate checkin, LocalDate checkout, String location) {
         log.info("[서비스] 전체조회 실행");
+
         List<Hotel> allHotels = hotelJpaRepository.findByDelYn("N");
-        List<HotelResponseDto> allHotelResponseDto = allHotels.stream()
-                .map(hotel -> new HotelResponseDto(hotel))
+
+        List<Hotel> availableHotels = allHotels.stream()
+                .filter(hotel -> {
+                    //지역 필터링
+                    if (location != null && !hotel.getAddress().contains(location)) {
+                        return false;
+                    }
+                    //해당 호텔에 예약 가능한 객실이 하나라도 있는지 확인
+                    return hotel.getRoomsEntity().stream().anyMatch(room -> {
+                        //체크인, 체크아웃 값이 없을 경우, 모든 객실을 예약 가능한 것으로 판단
+                        if (checkin == null || checkout == null) {
+                            return true;
+                        }
+                        return room.getReservations().stream().noneMatch(reservation -> (
+                                checkin.isBefore(reservation.getCheckOut()) &&
+                                        checkout.isAfter(reservation.getCheckIn()
+                                        )));
+                    });
+                })
+                .collect(Collectors.toList());
+
+        //DTO 반환
+        List<HotelResponseDto> hotelResponseDtos = availableHotels.stream()
+                .map(HotelResponseDto::new)
                 .collect(Collectors.toList());
         log.info("[서비스] 전체조회 종료");
-        return allHotelResponseDto;
+        return hotelResponseDtos;
     }
 
     @Transactional(readOnly = true)
@@ -106,7 +131,7 @@ public class HotelService {
     }
 
     @Transactional(readOnly = true)
-    public List<HotelResponseDto> getHotelsByLocation(String location) {
+    public List<HotelResponseDto> getHotelsByLocation(String location, LocalDate checkin, LocalDate checkout) {
         log.info("[서비스] 지역명으로 조회 실행");
         List<Hotel> allByLocation = hotelJpaRepository.findAllByAddressContainingAndDelYn(location, "N");
 
