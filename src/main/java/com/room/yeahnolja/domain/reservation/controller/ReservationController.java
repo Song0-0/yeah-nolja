@@ -32,4 +32,12 @@ public class ReservationController {
         List<RoomResponseDto> availableRooms = roomService.getAvailableRooms(hotelId, checkin, checkout, price, location);
         return ResponseEntity.ok(availableRooms);
     }
+
+
+    @Operation(summary = "객실 단건 조회")
+    @GetMapping("/reservation/room/{roomId}")
+    public ResponseEntity<RoomResponseDto> getRoom(@PathVariable int roomId) {
+        RoomResponseDto room = roomService.getRoom(roomId);
+        return ResponseEntity.ok(room);
+    }
 }

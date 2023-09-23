@@ -1,7 +1,8 @@
 package com.room.yeahnolja.domain.reservation.dto;
 
-import com.room.yeahnolja.domain.reservation.entity.Room;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 public class RoomResponseDto {
@@ -12,17 +13,7 @@ public class RoomResponseDto {
     private int people;
     private int price;
     private String information;
-
-    public RoomResponseDto(Room room) {
-        this.hotelId = room.getHotel().getId();
-        this.hotelName = room.getHotel().getName();
-        this.id = room.getId();
-        this.type = room.getType();
-        this.people = room.getPeople();
-        this.price = room.getPrice();
-        this.information = room.getInformation();
-    }
-
+    private List<String> reservationNotices;
     public RoomResponseDto(int hotelId, String hotelName, int id, String type, int people, int price, String information) {
         this.hotelId = hotelId;
         this.hotelName = hotelName;
@@ -32,4 +23,12 @@ public class RoomResponseDto {
         this.price = price;
         this.information = information;
     }
+    public RoomResponseDto(String type, int people, int price, String information, List<String> reservationNotices) {
+        this.type = type;
+        this.people = people;
+        this.price = price;
+        this.information = information;
+        this.reservationNotices = reservationNotices;
+    }
+
 }
