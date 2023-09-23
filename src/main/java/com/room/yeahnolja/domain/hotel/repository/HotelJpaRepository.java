@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface HotelJpaRepository extends JpaRepository<Hotel, Integer> {
-    List<Hotel> findAllByAddressContainingAndDelYn(String address, String delYn);
     List<Hotel> findAllByNameContainingAndDelYn(String name, String delYn);
     List<Hotel> findByDelYn(String delYn);
     Optional<Hotel> findByIdAndDelYn(int id, String delYn);

@@ -131,23 +131,6 @@ public class HotelService {
     }
 
     @Transactional(readOnly = true)
-    public List<HotelResponseDto> getHotelsByLocation(String location, LocalDate checkin, LocalDate checkout) {
-        log.info("[서비스] 지역명으로 조회 실행");
-        List<Hotel> allByLocation = hotelJpaRepository.findAllByAddressContainingAndDelYn(location, "N");
-
-        if (allByLocation.isEmpty()) {
-            log.info("[서비스] 지역명으로 조회 결과 : 0건");
-            throw new ResourceNotFoundException("Hotel with " + location + " not found");
-        } else {
-            log.info("[서비스] 지역명으로 조회 결과 : {}건", allByLocation.size() + "건");
-            log.info("[서비스] 지역명으로 조회 종료");
-        }
-        return allByLocation.stream()
-                .map(HotelResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
     public List<HotelResponseDto> getHotelsByName(String name) {
         log.info("[서비스] 호텔명으로 조회 실행");
         List<Hotel> allByName = hotelJpaRepository.findAllByNameContainingAndDelYn(name, "N");

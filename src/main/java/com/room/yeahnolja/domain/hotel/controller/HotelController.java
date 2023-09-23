@@ -59,7 +59,7 @@ public class HotelController {
     }
 
 
-    @Operation(summary = "호텔 전체 조회")
+    @Operation(summary = "호텔 전체 조회 + 체크인/체크아웃날짜와 지역으로도 조회 가능")
     @GetMapping("")
     public ResponseEntity<List<HotelResponseDto>> getAllHotels(
             @RequestParam(value = "checkin", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkin,
@@ -81,19 +81,6 @@ public class HotelController {
         log.info("[컨트롤러] 단건조회 완료");
         return ResponseEntity.ok()
                 .body(hotel);
-    }
-
-    @Operation(summary = "특정 체크인, 체크아웃 날짜와 지역에 대한 호텔 조회")
-    @GetMapping("/location")
-    public ResponseEntity<List<HotelResponseDto>> getHotelsByLocation(
-            @RequestParam("checkin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkin,
-            @RequestParam("checkout") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkout,
-            @RequestParam String location) {
-        log.info("[컨트롤러] 검색용 지역 데이터 : {}", location);
-        List<HotelResponseDto> availableHotels = hotelService.getHotelsByLocation(location, checkin, checkout);
-        log.info("[컨트롤러] 특정지역 조회 완료");
-        return ResponseEntity.ok()
-                .body(availableHotels);
     }
 
     @Operation(summary = "특정 호텔명에 대한 호텔 조회")
