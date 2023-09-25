@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
         log.error("Exception occurred", e);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("알 수 없는 오류가 발생했습니다.");
+                .body("관리자에게 문의 바랍니다.");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
