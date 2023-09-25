@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +37,30 @@ public class RoomService {
                 room.getPrice(),
                 room.getInformation(),
                 reservationNotices
+        );
+    }
+
+    public RoomResponseDto getReservationPreInfo(int roomId, LocalDate checkin, LocalDate checkout) {
+        //1. 객실 존재 여부 확인
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 객실입니다."));
+
+        //2. 예약 가능한지 확인
+        Optional<Room> optionalAvailableRoom = roomRepository.findAvailableRoomByIdAndDate(roomId, checkin, checkout);
+        if (!optionalAvailableRoom.isPresent()) {
+            throw new IllegalArgumentException("해당 날짜에는 예약이 불가능합니다.");
+        }
+
+        //체크인과 체크아웃의 차이 계산하여 숙박 일수 구함
+        long between = ChronoUnit.DAYS.between(checkin, checkout);
+        //1박 객실 요금 * 숙박일수
+        int totalPayment = (int) (room.getPrice() * between);
+
+        return new RoomResponseDto(
+                room.getHotel().getName(),
+                room.getType(),
+                checkin,
+                checkout,
+                totalPayment
         );
     }
 }

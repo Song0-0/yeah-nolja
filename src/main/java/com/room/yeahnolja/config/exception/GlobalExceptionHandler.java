@@ -34,6 +34,14 @@ public class GlobalExceptionHandler {
                 .body("데이터가 존재하지 않습니다.");
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+        log.error("IllegalArgumentException occurred", e);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("객실이 존재하지 않거나, 해당 날짜에는 예약이 불가능합니다.");
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleException(RuntimeException e) {
         log.error("Exception occurred", e);

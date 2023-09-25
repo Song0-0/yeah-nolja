@@ -40,4 +40,15 @@ public class ReservationController {
         RoomResponseDto room = roomService.getRoom(roomId);
         return ResponseEntity.ok(room);
     }
+
+    @Operation(summary = "예약 진행 직전 정보 조회")
+    @GetMapping("/reservation/{roomId}")
+    public ResponseEntity<RoomResponseDto> getReservationPreInfo(
+            @PathVariable int roomId,
+            @RequestParam("checkin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkin,
+            @RequestParam("checkout") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkout) {
+        RoomResponseDto room = roomService.getReservationPreInfo(roomId, checkin, checkout);
+        return ResponseEntity.ok(room);
+    }
+
 }

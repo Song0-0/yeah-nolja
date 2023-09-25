@@ -23,7 +23,7 @@ public class Reservation {
     private int people;
 
     @Column(nullable = false)
-    private int price;
+    private int payment;
 
     @CreationTimestamp
     private LocalDateTime reservationDate;

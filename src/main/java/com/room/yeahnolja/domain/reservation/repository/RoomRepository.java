@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
@@ -33,4 +34,12 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
             @Param("price") Integer price,
             @Param("location") String location
     );
+
+
+    @Query("SELECT r FROM Room r WHERE r.id = :roomId AND NOT EXISTS (" +
+            "SELECT res FROM Reservation res WHERE res.room.id = r.id AND " +
+            "((:checkin <= res.checkOut AND :checkout >= res.checkIn)))")
+    Optional<Room> findAvailableRoomByIdAndDate(@Param("roomId") int roomId,
+                                                @Param("checkin") LocalDate checkin,
+                                                @Param("checkout") LocalDate checkout);
 }
