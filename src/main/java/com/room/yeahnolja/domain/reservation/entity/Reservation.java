@@ -1,6 +1,9 @@
 package com.room.yeahnolja.domain.reservation.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,6 +13,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "reservation")
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +42,9 @@ public class Reservation {
 
     @Column(nullable = false)
     private String notice;
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
 }

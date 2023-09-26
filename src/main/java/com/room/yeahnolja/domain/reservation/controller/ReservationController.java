@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -51,4 +48,14 @@ public class ReservationController {
         return ResponseEntity.ok(room);
     }
 
+    @Operation(summary = "객실 예약하기")
+    @PostMapping("/reservation")
+    public ResponseEntity<String> saveReservation(
+            @RequestParam int roomId,
+            @RequestParam int people,
+            @RequestParam("checkin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkin,
+            @RequestParam("checkout") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkout) {
+        roomService.saveReservation(roomId, people, checkin, checkout);
+        return ResponseEntity.ok("예약이 완료되었습니다.");
+    }
 }

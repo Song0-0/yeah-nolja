@@ -33,4 +33,11 @@ public class Room {
 
     @Column(nullable = false)
     private String information;
+
+    public void addReservation(Reservation reservation) {
+        this.reservations.add(reservation);
+        if(reservation.getRoom() != this){
+            reservation.setRoom(this);
+        }
+    }
 }
