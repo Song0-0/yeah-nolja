@@ -43,8 +43,19 @@ public class Reservation {
     @Column(nullable = false)
     private String notice;
 
+    @Column(nullable = false)
+    private String delYn;
+
+    private String cancelDate;
+
     public void setRoom(Room room) {
         this.room = room;
+    }
+    public void setDelYn(String delYn) {
+        this.delYn = delYn;
+    }
+    public void setCancelDate(String cancelDate) {
+        this.cancelDate = cancelDate;
     }
 
 }

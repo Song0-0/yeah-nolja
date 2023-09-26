@@ -58,4 +58,11 @@ public class ReservationController {
         roomService.saveReservation(roomId, people, checkin, checkout);
         return ResponseEntity.ok("예약이 완료되었습니다.");
     }
+
+    @Operation(summary = "객실 예약 취소하기")
+    @PatchMapping("/reservation/{reservationId}")
+    public ResponseEntity<String> cancelReservation(@PathVariable int reservationId) {
+        roomService.cancelReservation(reservationId);
+        return ResponseEntity.ok("예약이 취소되었습니다.");
+    }
 }

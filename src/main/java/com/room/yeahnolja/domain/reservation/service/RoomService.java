@@ -3,11 +3,13 @@ package com.room.yeahnolja.domain.reservation.service;
 import com.room.yeahnolja.domain.reservation.dto.RoomResponseDto;
 import com.room.yeahnolja.domain.reservation.entity.Reservation;
 import com.room.yeahnolja.domain.reservation.entity.Room;
+import com.room.yeahnolja.domain.reservation.repository.ReservationRepository;
 import com.room.yeahnolja.domain.reservation.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+    private final ReservationRepository reservationRepository;
 
     public List<RoomResponseDto> getAvailableRooms(int hotelId, LocalDate checkin, LocalDate checkout, Integer price, String location) {
         List<RoomResponseDto> rooms = roomRepository.findAvailableRooms(hotelId, checkin, checkout, price, location);
@@ -90,5 +93,13 @@ public class RoomService {
         room.addReservation(reservation);
 
         roomRepository.save(room);
+    }
+
+
+    public void cancelReservation(int reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약입니다."));
+        reservation.setDelYn("Y");
+        reservation.setCancelDate(LocalDateTime.now().toString());
+        roomRepository.save(reservation.getRoom());
     }
 }
