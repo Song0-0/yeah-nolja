@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
         log.error("IllegalArgumentException occurred", e);
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body("객실이 존재하지 않거나, 해당 날짜에는 예약이 불가능합니다.");
+                .body("객실이 존재하지 않거나, 해당 날짜에는 예약이 불가능합니다. / 예약이 존재하지 않습니다.");
     }
 
     @ExceptionHandler(RuntimeException.class)

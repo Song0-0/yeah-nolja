@@ -1,5 +1,6 @@
 package com.room.yeahnolja.domain.reservation.controller;
 
+import com.room.yeahnolja.domain.reservation.dto.ReservationResponseDto;
 import com.room.yeahnolja.domain.reservation.dto.RoomResponseDto;
 import com.room.yeahnolja.domain.reservation.service.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,5 +65,12 @@ public class ReservationController {
     public ResponseEntity<String> cancelReservation(@PathVariable int reservationId) {
         roomService.cancelReservation(reservationId);
         return ResponseEntity.ok("예약이 취소되었습니다.");
+    }
+
+    @Operation(summary = "예약 완료 직후 해당 객실 조회")
+    @GetMapping("/reservation/completed/{reservationId}")
+    public ResponseEntity<ReservationResponseDto> getReservationDetails(@PathVariable int reservationId) {
+        ReservationResponseDto room = roomService.getReservationDetails(reservationId);
+        return ResponseEntity.ok(room);
     }
 }

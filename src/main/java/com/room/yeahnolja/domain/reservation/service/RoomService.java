@@ -1,5 +1,6 @@
 package com.room.yeahnolja.domain.reservation.service;
 
+import com.room.yeahnolja.domain.reservation.dto.ReservationResponseDto;
 import com.room.yeahnolja.domain.reservation.dto.RoomResponseDto;
 import com.room.yeahnolja.domain.reservation.entity.Reservation;
 import com.room.yeahnolja.domain.reservation.entity.Room;
@@ -101,5 +102,18 @@ public class RoomService {
         reservation.setDelYn("Y");
         reservation.setCancelDate(LocalDateTime.now().toString());
         roomRepository.save(reservation.getRoom());
+    }
+
+    public ReservationResponseDto getReservationDetails(int reservationId) {
+
+        Reservation reservation = reservationRepository.findByIdAndDelYn(reservationId, "N").orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약입니다."));
+
+        return new ReservationResponseDto(
+                reservation.getRoom().getHotel().getName(),
+                reservation.getCheckIn(),
+                reservation.getCheckOut(),
+                reservation.getRoom().getType(),
+                reservation.getPayment()
+        );
     }
 }
