@@ -1,9 +1,9 @@
 package com.room.yeahnolja.domain.member.controller;
 
 import com.room.yeahnolja.domain.member.dto.JoinRequestDto;
-import com.room.yeahnolja.domain.member.dto.LoginRequestDto;
 import com.room.yeahnolja.domain.member.entity.Member;
 import com.room.yeahnolja.domain.member.service.MemberService;
+import com.room.yeahnolja.security.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @Tag(name = "Member Controller")
 @RestController
 @Slf4j
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Operation(summary = "회원가입")
     @PostMapping("/join")
@@ -32,8 +35,12 @@ public class MemberController {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public ResponseEntity<Member> login(@RequestBody LoginRequestDto loginRequestDto) {
-        Member member = memberService.login(loginRequestDto.getEmail(), loginRequestDto.getPwd());
-        return ResponseEntity.ok(member);
+    public String login(@RequestBody Map<String, String> loginUser) {
+        Member member = memberService.login(loginUser);
+        if(member != null) {
+            return jwtTokenProvider.createToken(member.getUsername(), member.getAuthorities());
+        }else {
+            return "로그인 실패";
+        }
     }
 }
