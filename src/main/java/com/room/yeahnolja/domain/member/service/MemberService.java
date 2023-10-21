@@ -31,7 +31,8 @@ public class MemberService {
         log.info("[서비스] 회원가입 로직 끝");
         return memberEntity;
     }
-//    @Override
+
+    //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        return memberRepository.findByEmail(username);
 //    }
@@ -39,11 +40,14 @@ public class MemberService {
         log.info("[서비스] 로그인 로직 시작");
         Member member = memberRepository.findByEmail(loginUser.get("email"))
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다."));
-        if (!member.getPassword().equals(loginUser.get("pwd"))) {
+        String rawPassword = loginUser.get("pwd"); //사용자가 입력한 비밀번호
+        String encodedPassword = member.getPassword(); //디비에 저장된 해시된 비밀번호
+        if (passwordEncoder.matches(rawPassword, encodedPassword)) {
+            log.info("[서비스] 로그인 로직 끝");
+            return member;
+        } else {
+            log.info("[서비스] 로그인 로직 끝");
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        log.info("[서비스] 로그인 로직 끝");
-        return member;
     }
-
 }
