@@ -26,7 +26,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .antMatchers("/", "/join", "/login").permitAll()
-                .antMatchers("/hotels/**").hasRole("ADMIN")
+                .antMatchers("/hotels/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()

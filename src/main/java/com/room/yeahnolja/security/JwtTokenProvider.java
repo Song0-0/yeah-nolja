@@ -1,5 +1,6 @@
 package com.room.yeahnolja.security;
 
+import com.room.yeahnolja.domain.member.service.MemberService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +16,10 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 
-
 public class JwtTokenProvider {
+
     @Autowired
-    private UserDetailsService userDetailsService;
+    private MemberService memberService;
     private String secretKey = "ReservationApp";
     private long tokenValidTime = 30 * 60 * 1000L;
 
@@ -47,7 +47,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(getEmail(token));
+        UserDetails userDetails = memberService.loadUserByUsername(getEmail(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

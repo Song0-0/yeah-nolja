@@ -5,6 +5,7 @@ import com.room.yeahnolja.domain.member.entity.Member;
 import com.room.yeahnolja.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,14 +33,13 @@ public class MemberService {
         return memberEntity;
     }
 
-    //    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        return memberRepository.findByEmail(username);
-//    }
+    public Member loadUserByUsername(String username) throws UsernameNotFoundException {
+        return memberRepository.findByEmail(username);
+    }
+
     public Member login(Map<String, String> loginUser) {
         log.info("[서비스] 로그인 로직 시작");
-        Member member = memberRepository.findByEmail(loginUser.get("email"))
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다."));
+        Member member = memberRepository.findByEmail(loginUser.get("email"));
         String rawPassword = loginUser.get("pwd"); //사용자가 입력한 비밀번호
         String encodedPassword = member.getPassword(); //디비에 저장된 해시된 비밀번호
         if (passwordEncoder.matches(rawPassword, encodedPassword)) {
