@@ -4,7 +4,7 @@ import com.room.yeahnolja.domain.member.service.MemberService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,10 +16,9 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 
+@RequiredArgsConstructor
 public class JwtTokenProvider {
-
-    @Autowired
-    private MemberService memberService;
+    private final MemberService memberService;
     private String secretKey = "ReservationApp";
     private long tokenValidTime = 30 * 60 * 1000L;
 
