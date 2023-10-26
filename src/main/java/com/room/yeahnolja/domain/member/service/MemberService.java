@@ -1,6 +1,7 @@
 package com.room.yeahnolja.domain.member.service;
 
 import com.room.yeahnolja.domain.member.dto.JoinRequestDto;
+import com.room.yeahnolja.domain.member.dto.LoginRequestDto;
 import com.room.yeahnolja.domain.member.entity.Member;
 import com.room.yeahnolja.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -37,10 +36,10 @@ public class MemberService {
         return memberRepository.findByEmail(username);
     }
 
-    public Member login(Map<String, String> loginUser) {
+    public Member login(LoginRequestDto loginRequestDto) {
         log.info("[서비스] 로그인 로직 시작");
-        Member member = memberRepository.findByEmail(loginUser.get("email"));
-        String rawPassword = loginUser.get("pwd"); //사용자가 입력한 비밀번호
+        Member member = memberRepository.findByEmail(loginRequestDto.getEmail());
+        String rawPassword = loginRequestDto.getPwd(); //사용자가 입력한 비밀번호
         String encodedPassword = member.getPassword(); //디비에 저장된 해시된 비밀번호
         if (passwordEncoder.matches(rawPassword, encodedPassword)) {
             log.info("[서비스] 로그인 로직 끝");

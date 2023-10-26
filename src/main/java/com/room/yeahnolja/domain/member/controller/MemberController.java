@@ -1,6 +1,7 @@
 package com.room.yeahnolja.domain.member.controller;
 
 import com.room.yeahnolja.domain.member.dto.JoinRequestDto;
+import com.room.yeahnolja.domain.member.dto.LoginRequestDto;
 import com.room.yeahnolja.domain.member.entity.Member;
 import com.room.yeahnolja.domain.member.service.MemberService;
 import com.room.yeahnolja.security.JwtTokenProvider;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import javax.validation.Valid;
 
 @Tag(name = "Member Controller")
 @RestController
@@ -26,7 +27,7 @@ public class MemberController {
 
     @Operation(summary = "회원가입")
     @PostMapping("/join")
-    public ResponseEntity<Member> join(@RequestBody JoinRequestDto joinRequestDto) {
+    public ResponseEntity<Member> join(@Valid @RequestBody JoinRequestDto joinRequestDto) {
         log.info("[컨트롤러] 회원가입 시, 이메일 : {}", joinRequestDto.getEmail());
 
         return ResponseEntity.ok()
@@ -35,8 +36,8 @@ public class MemberController {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> loginUser) {
-        Member member = memberService.login(loginUser);
+    public String login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+        Member member = memberService.login(loginRequestDto);
         if(member != null) {
             return jwtTokenProvider.createToken(member.getUsername(), member.getAuthorities());
         }else {
