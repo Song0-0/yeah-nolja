@@ -1,5 +1,6 @@
 package com.room.yeahnolja.domain.member.controller;
 
+import com.room.yeahnolja.domain.common.CommonResponse;
 import com.room.yeahnolja.domain.member.dto.JoinRequestDto;
 import com.room.yeahnolja.domain.member.dto.LoginRequestDto;
 import com.room.yeahnolja.domain.member.entity.Member;
@@ -37,13 +38,20 @@ public class MemberController {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<CommonResponse<?>> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
         Member member = memberService.login(loginRequestDto);
         if (member != null) {
             String token = jwtTokenProvider.createToken(member.getUsername(), member.getAuthorities());
-            return ResponseEntity.ok(token);
+            CommonResponse<String> response = CommonResponse.onSuccess(200, token);  // 성공 응답 생성
+            return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+            CommonResponse<String> errorResponse = CommonResponse.<String>builder()  // 실패 응답 생성
+                    .code(HttpStatus.UNAUTHORIZED.value())
+                    .success(false)
+                    .message("로그인 실패")
+                    .data(null)
+                    .build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
     }
 }
