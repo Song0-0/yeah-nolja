@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,12 +37,13 @@ public class MemberController {
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public String login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
         Member member = memberService.login(loginRequestDto);
-        if(member != null) {
-            return jwtTokenProvider.createToken(member.getUsername(), member.getAuthorities());
-        }else {
-            return "로그인 실패";
+        if (member != null) {
+            String token = jwtTokenProvider.createToken(member.getUsername(), member.getAuthorities());
+            return ResponseEntity.ok(token);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
         }
     }
 }
