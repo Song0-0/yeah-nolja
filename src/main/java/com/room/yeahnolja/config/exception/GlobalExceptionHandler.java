@@ -1,5 +1,6 @@
 package com.room.yeahnolja.config.exception;
 
+import com.room.yeahnolja.domain.common.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -35,11 +36,18 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+    public ResponseEntity<CommonResponse<?>> handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("IllegalArgumentException occurred : {}", e);
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("객실이 존재하지 않거나, 해당 날짜에는 예약이 불가능합니다. / 예약이 존재하지 않습니다. / 가입되지 않은 이메일입니다. / 잘못된 비밀번호입니다.");
+        CommonResponse<String> errorResponse = CommonResponse.<String>builder()  // 실패 응답 생성
+                .code(HttpStatus.UNAUTHORIZED.value())
+                .success(false)
+                .message("로그인 실패")
+                .data(null)
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+//                ResponseEntity
+//                .status(HttpStatus.NOT_FOUND)
+//                .body("객실이 존재하지 않거나, 해당 날짜에는 예약이 불가능합니다. / 예약이 존재하지 않습니다. / 가입되지 않은 이메일입니다. / 잘못된 비밀번호입니다.");
     }
 
     @ExceptionHandler(RuntimeException.class)
