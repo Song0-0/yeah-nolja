@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +18,7 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
@@ -35,6 +37,8 @@ public class JwtTokenProvider {
 
         Date now = new Date();
 
+        log.info("secretKey {}", secretKey);
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
@@ -44,7 +48,12 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
+        String authorization = request.getHeader("Authorization");
+        log.info("authorization: {}", authorization);
+        log.info("문자열 자르기 전 {}", request.getHeader("Authorization"));
+        log.info("문자열 자르기 후 {}",authorization.substring(7));
+        return authorization.substring(7);
+//        return authorization;
     }
 
     public Authentication getAuthentication(String token) {
