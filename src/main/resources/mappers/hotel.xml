@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.room.yeahnolja.domain.hotel.mapper.HotelMapper">
+
+    <insert id="save" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelCreateRequestDto">
+        insert into hotel (name, type, address, contact, star, description, min_price, max_price, rooms)
+        values (#{name}, #{type}, #{address}, #{contact}, #{star}, #{description}, #{minPrice}, #{maxPrice},
+                #{rooms})
+    </insert>
+
+    <select id="findAll" resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
+        select id,
+               name,
+               type,
+               address,
+               contact,
+               star,
+               description,
+               min_price,
+               max_price,
+               rooms,
+               reg_dt,
+               mod_dt
+        from hotel
+    </select>
+
+    <select id="findAllById" parameterType="int" resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
+        select id,
+               name,
+               type,
+               address,
+               contact,
+               star,
+               description,
+               min_price,
+               max_price,
+               rooms,
+               reg_dt,
+               mod_dt
+        from hotel
+        where id = #{hotelId}
+    </select>
+
+    <select id="findAllByAddress" parameterType="String"
+            resultType="com.room.yeahnolja.domain.hotel.dto.HotelResponseDto">
+        select id,
+               name,
+               type,
+               address,
+               contact,
+               star,
+               description,
+               min_price,
+               max_price,
+               rooms,
+               reg_dt,
+               mod_dt
+        from hotel
+        where address like concat('%', #{location}, '%')
+    </select>
+
+    <update id="update" parameterType="com.room.yeahnolja.domain.hotel.dto.HotelCreateRequestDto">
+        update hotel
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="contact != null">
+                contact = #{contact},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="star != null">
+                star = #{star},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="minPrice != null">
+                min_price= #{minPrice},
+            </if>
+            <if test="maxPrice != null">
+                max_price= #{maxPrice},
+            </if>
+            <if test="rooms != null">
+                rooms= #{rooms},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        delete
+        from hotel
+        where id = #{hotelId}
+    </delete>
+</mapper>

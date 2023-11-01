@@ -15,12 +15,30 @@ spring:
   application:
     name: yeahnolja
   datasource:
-    driver-class: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yeah_nolja?serverTimezone=Asia/Seoul
+    driver-class: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3307/yeah_nolja?serverTimezone=Asia/Seoul
     username: root
-    password: my1234
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+
 
 mybatis:
   mapper-locations: classpath:mappers/*.xml
   configuration:
     map-underscore-to-camel-case: true
+
+logging:
+  level:
+    root: INFO #전체 로그 레벨 설정 (default = INFO)
+    com:
+      room:
+        yeahnolja:
+          domain:
+            hotel:
+              service: DEBUG #패키지와 그 하위 로그 레벨 설정
