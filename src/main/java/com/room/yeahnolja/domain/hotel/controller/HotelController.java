@@ -8,11 +8,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Hotel Controller")
@@ -57,11 +59,15 @@ public class HotelController {
     }
 
 
-    @Operation(summary = "호텔 전체 조회")
+    @Operation(summary = "호텔 전체 조회 + 체크인/체크아웃날짜와 지역으로도 조회 가능")
     @GetMapping("")
-    public ResponseEntity<List<HotelResponseDto>> getAllHotels() {
+    public ResponseEntity<List<HotelResponseDto>> getAllHotels(
+            @RequestParam(value = "checkin", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkin,
+            @RequestParam(value = "checkout", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkout,
+            @RequestParam(value = "location", required = false) String location
+    ) {
         log.info("[컨트롤러] 전체조회 시작");
-        List<HotelResponseDto> allHotels = hotelService.getAllHotels();
+        List<HotelResponseDto> allHotels = hotelService.getAllHotels(checkin, checkout, location);
         log.info("[컨트롤러] 전체조회 결과 : {}", allHotels);
         return ResponseEntity.ok()
                 .body(allHotels);
@@ -75,16 +81,6 @@ public class HotelController {
         log.info("[컨트롤러] 단건조회 완료");
         return ResponseEntity.ok()
                 .body(hotel);
-    }
-
-    @Operation(summary = "특정 지역에 대한 호텔 조회")
-    @GetMapping("/location")
-    public ResponseEntity<List<HotelResponseDto>> getHotelsByLocation(@RequestParam String location) {
-        log.info("[컨트롤러] 검색용 지역 데이터 : {}", location);
-        List<HotelResponseDto> hotelsByLocation = hotelService.getHotelsByLocation(location);
-        log.info("[컨트롤러] 특정지역 조회 완료");
-        return ResponseEntity.ok()
-                .body(hotelsByLocation);
     }
 
     @Operation(summary = "특정 호텔명에 대한 호텔 조회")
